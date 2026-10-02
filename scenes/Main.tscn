@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=38 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -19,6 +19,27 @@ albedo_color = Color(1, 1, 1, 1)
 material = SubResource("mat_snow")
 radius = 0.06
 height = 0.12
+
+[sub_resource type="StandardMaterial3D" id="mat_pot"]
+albedo_color = Color(0.7, 0.4, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="mesh_pot"]
+material = SubResource("mat_pot")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="mat_canvas"]
+albedo_color = Color(0.85, 0.8, 0.6, 1)
+
+[sub_resource type="BoxMesh" id="mesh_cuadro"]
+material = SubResource("mat_canvas")
+size = Vector3(1.2, 0.8, 0.06)
+
+[sub_resource type="StandardMaterial3D" id="mat_rug"]
+albedo_color = Color(0.75, 0.3, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="mesh_rug"]
+material = SubResource("mat_rug")
+size = Vector3(2.4, 0.06, 1.6)
 
 [sub_resource type="StandardMaterial3D" id="mat_water"]
 albedo_color = Color(0.3, 0.55, 0.85, 1)
@@ -195,6 +216,25 @@ mesh = SubResource("mesh_roof")
 position = Vector3(1.5, 3.0, 0)
 rotation = Vector3(0, 0, -0.49)
 mesh = SubResource("mesh_roof")
+
+[node name="DecorMaceta" type="MeshInstance3D" parent="House" groups=["DecorMaceta"]]
+visible = false
+position = Vector3(2.5, 0.25, 2.0)
+mesh = SubResource("mesh_pot")
+
+[node name="DecorCuadro" type="MeshInstance3D" parent="House" groups=["DecorCuadro"]]
+visible = false
+position = Vector3(0, 1.8, -2.32)
+mesh = SubResource("mesh_cuadro")
+
+[node name="DecorAlfombra" type="MeshInstance3D" parent="House" groups=["DecorAlfombra"]]
+visible = false
+position = Vector3(0, 0.03, 0)
+mesh = SubResource("mesh_rug")
+
+[node name="Decor" parent="." instance=ExtResource("7")]
+position = Vector3(-4, 0.5, -5)
+prop_id = "decor"
 
 [node name="Bed" parent="." instance=ExtResource("7")]
 position = Vector3(-6, 0.5, -7)

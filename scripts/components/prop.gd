@@ -12,7 +12,13 @@ const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15
 	"oven": Color(0.7, 0.7, 0.72), "mill": Color(0.75, 0.6, 0.4), "well": Color(0.55, 0.55, 0.6),
 	"sign": Color(0.65, 0.5, 0.3), "market": Color(0.8, 0.4, 0.25),
 	"fish": Color(0.35, 0.6, 0.85), "forage": Color(0.4, 0.6, 0.3),
-	"telar": Color(0.7, 0.5, 0.65)}
+	"telar": Color(0.7, 0.5, 0.65), "decor": Color(0.85, 0.7, 0.5)}
+
+const DECOR_CATALOG := [
+	{"id": "decor_maceta", "name": "Maceta", "price": 10, "node": "DecorMaceta"},
+	{"id": "decor_cuadro", "name": "Cuadro", "price": 15, "node": "DecorCuadro"},
+	{"id": "decor_alfombra", "name": "Alfombra", "price": 20, "node": "DecorAlfombra"},
+]
 
 var lit: bool = false
 var depleted: bool = false
@@ -38,6 +44,8 @@ func _on_new_day(_day: int) -> void:
 
 
 func _process(delta: float) -> void:
+	if prop_id == "decor":
+		_sync_decor()
 	# Aura de calor: junto a la chimenea encendida se recupera energia (GDD §13).
 	if prop_id != "fireplace" or not lit:
 		return
@@ -64,7 +72,7 @@ func get_prompt() -> String:
 				if int(market.call("surplus_value")) > 0:
 					return "Vender excedente (+%d)" % int(market.call("surplus_value"))
 				if bool(market.call("can_buy_pack")):
-					return "Comprar pack semillas (5)"
+					return "Comprar pack semillas (%d)" % int(market.call("pack_price"))
 			return "Mercado (nada que comerciar)"
 		"fish":
 			return "Pescar (caña)"
@@ -72,6 +80,11 @@ func get_prompt() -> String:
 			return "Recoger " + forage_id if not depleted else "Ya recogido (vuelve mañana)"
 		"telar":
 			return "Tejer tela (2 lana)"
+		"decor":
+			var next_decor: Dictionary = _next_decor()
+			if next_decor.is_empty():
+				return "Casa decorada"
+			return "Comprar %s (%d)" % [String(next_decor["name"]), int(next_decor["price"])]
 		"sign":
 			return info_text if info_text != "" else "Cartel"
 	return prompt
@@ -119,6 +132,45 @@ func interact(player: Node) -> void:
 			if pl != null and inv != null and int(inv.call("get_count", "lana")) >= 2 and pl.spend_energy(4.0):
 				inv.call("remove_item", "lana", 2)
 				inv.call("add_item", "tela")
+		"decor":
+			_buy_decor()
+
+
+func _next_decor() -> Dictionary:
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	for entry: Dictionary in DECOR_CATALOG:
+		if inv == null or not bool(inv.call("has", String(entry["id"]))):
+			return entry
+	return {}
+
+
+func _buy_decor() -> void:
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	if inv == null:
+		return
+	var entry := _next_decor()
+	if entry.is_empty():
+		return
+	if int(inv.get("money")) < int(entry["price"]):
+		return
+	inv.set("money", int(inv.get("money")) - int(entry["price"]))
+	inv.call("add_item", String(entry["id"]))
+	var mem: Node = get_node_or_null("/root/MemorySystem")
+	if mem != null:
+		mem.call("remember", "decor_" + String(entry["id"]))
+	_sync_decor()
+
+
+func _sync_decor() -> void:
+	if prop_id != "decor":
+		return
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	if inv == null:
+		return
+	for entry: Dictionary in DECOR_CATALOG:
+		for node: Node in get_tree().get_nodes_in_group(String(entry["node"])):
+			if node is MeshInstance3D:
+				(node as MeshInstance3D).visible = bool(inv.call("has", String(entry["id"])))
 
 
 func _cook(pl: Player, inv: Node) -> void:

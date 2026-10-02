@@ -50,6 +50,7 @@ func _today_count(npc_name: String) -> int:
 
 func gift(npc_name: String, item_id: String) -> int:
 	# Devuelve puntos ganados; 0 si tope diario; -1 si no hay item.
+	# En dia de festival (fin de temporada) los regalos valen doble (GDD §50).
 	var inv: Node = get_node_or_null("/root/InventorySystem")
 	if inv == null or not bool(inv.call("has", item_id)):
 		return -1
@@ -61,6 +62,9 @@ func gift(npc_name: String, item_id: String) -> int:
 	var npc: Node = _find_npc(npc_name)
 	if npc != null and npc.get("data") != null and String(npc.get("data").get("favorite_gift")) == item_id:
 		gained = 8
+	if _is_festival():
+		gained *= 2
+		_festival_toast()
 	_add_points(npc_name, gained)
 	var time_sys: Node = get_node_or_null("/root/TimeSystem")
 	var day: int = int(time_sys.get("current_day")) if time_sys != null else 1
@@ -115,6 +119,21 @@ func deserialize(d: Dictionary) -> void:
 func _add_points(npc_name: String, n: int) -> void:
 	points[npc_name] = get_points(npc_name) + n
 	points_changed.emit(npc_name, int(points[npc_name]))
+
+
+func is_festival() -> bool:
+	return _is_festival()
+
+
+func _is_festival() -> bool:
+	var time_sys: Node = get_node_or_null("/root/TimeSystem")
+	return time_sys != null and time_sys.has_method("is_festival_day") and bool(time_sys.call("is_festival_day"))
+
+
+func _festival_toast() -> void:
+	for hud: Node in get_tree().get_nodes_in_group("hud"):
+		if hud.has_method("show_message"):
+			hud.call("show_message", "¡Festival! Regalos x2 hoy")
 
 
 func _find_npc(npc_name: String) -> Node:
