@@ -26,6 +26,9 @@ show_percentage = false
 [node name="ToolLabel" type="Label" parent="TopLeft"]
 text = "manos"
 
+[node name="MoneyLabel" type="Label" parent="TopLeft"]
+text = "$ 10"
+
 [node name="Prompt" type="CenterContainer" parent="."]
 anchors_preset = 15
 anchor_right = 1.0

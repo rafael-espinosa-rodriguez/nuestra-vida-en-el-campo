@@ -271,6 +271,10 @@ position = Vector3(5.5, 0.5, 12.5)
 prop_id = "sign"
 info_text = "Herreria de Bram"
 
+[node name="Mercado" parent="." instance=ExtResource("1")]
+position = Vector3(2.4, 0.5, 7)
+prop_id = "market"
+
 [node name="Mara" parent="." instance=ExtResource("2")]
 position = Vector3(-8, 0.1, -4)
 data = ExtResource("3")

@@ -6,6 +6,7 @@ signal items_changed
 enum Category { AGRICULTURA, ANIMALES, MATERIALES, COMIDA, HERRAMIENTAS, OBJETOS }
 
 var items: Dictionary = {}
+var money: int = 0
 
 
 func _ready() -> void:
@@ -19,6 +20,7 @@ func _ready() -> void:
 		add_item("semilla_zanahoria", 2)
 		add_item("semilla_tomate", 2)
 		add_item("trigo", 2) # Despensa inicial: permite cocinar pan el D5 antes de la primera cosecha.
+		money = 10 # Para la primera compra en el mercado (spec 012).
 
 
 func add_item(item_id: String, amount: int = 1) -> void:

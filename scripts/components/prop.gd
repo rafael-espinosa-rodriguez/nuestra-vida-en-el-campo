@@ -9,7 +9,7 @@ extends InteractableArea3D
 const RECIPES := ["pan", "sopa", "tortilla"]
 const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15),
 	"oven": Color(0.7, 0.7, 0.72), "mill": Color(0.75, 0.6, 0.4), "well": Color(0.55, 0.55, 0.6),
-	"sign": Color(0.65, 0.5, 0.3)}
+	"sign": Color(0.65, 0.5, 0.3), "market": Color(0.8, 0.4, 0.25)}
 
 var lit: bool = false
 
@@ -36,14 +36,20 @@ func get_prompt() -> String:
 			return "Cocinar (pan/sopa/tortilla)"
 		"well":
 			return "Sacar agua"
+		"market":
+			var market: Node = get_node_or_null("/root/MarketSystem")
+			if market != null:
+				if int(market.call("surplus_value")) > 0:
+					return "Vender excedente (+%d)" % int(market.call("surplus_value"))
+				if bool(market.call("can_buy_pack")):
+					return "Comprar pack semillas (5)"
+			return "Mercado (nada que comerciar)"
 		"sign":
 			return info_text if info_text != "" else "Cartel"
 	return prompt
 
 
 func interact(player: Node) -> void:
-	if player == null or not (player is Player):
-		return
 	var pl: Player = player as Player
 	var inv: Node = get_node_or_null("/root/InventorySystem")
 	match prop_id:
@@ -57,14 +63,22 @@ func interact(player: Node) -> void:
 				glow.visible = true
 				glow.light_color = Color(1.0, 0.55, 0.25)
 		"mill":
-			if inv != null and int(inv.call("get_count", "trigo")) >= 1 and pl.spend_energy(2.0):
+			if pl != null and inv != null and int(inv.call("get_count", "trigo")) >= 1 and pl.spend_energy(2.0):
 				inv.call("remove_item", "trigo")
 				inv.call("add_item", "harina")
 		"oven":
-			_cook(pl, inv)
+			if pl != null:
+				_cook(pl, inv)
 		"well":
 			if inv != null:
 				inv.call("add_item", "agua")
+		"market":
+			var market: Node = get_node_or_null("/root/MarketSystem")
+			if market != null:
+				if int(market.call("surplus_value")) > 0:
+					market.call("sell_surplus")
+				else:
+					market.call("buy_seed_pack")
 
 
 func _cook(pl: Player, inv: Node) -> void:

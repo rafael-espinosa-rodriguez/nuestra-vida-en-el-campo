@@ -16,7 +16,7 @@ func save_game() -> bool:
 		"plots": _get_plots(),
 		"animals": _get_animals(),
 		"relations": _get_relations(),
-		"money": 0,
+		"money": _get_money(),
 		"memories": [],
 	}
 	var err := _write(data)
@@ -63,6 +63,10 @@ func load_game() -> bool:
 		var rel: Node = get_node_or_null("/root/RelationshipSystem")
 		if rel != null and rel.has_method("deserialize"):
 			rel.call("deserialize", data["relations"])
+	if data.has("money"):
+		var inv2: Node = get_node_or_null("/root/InventorySystem")
+		if inv2 != null:
+			inv2.set("money", int(data["money"]))
 	return true
 
 
@@ -115,6 +119,11 @@ func _get_relations() -> Dictionary:
 	if rel != null and rel.has_method("serialize"):
 		return rel.call("serialize")
 	return {}
+
+
+func _get_money() -> int:
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	return int(inv.get("money")) if inv != null else 0
 
 
 func _player_pos() -> Array:
