@@ -4,10 +4,12 @@ extends InteractableArea3D
 ## La cocina es data-driven (resources/data/recipes/*.tres).
 
 @export var prop_id: String = "bed"
+@export var info_text: String = ""
 
 const RECIPES := ["pan", "sopa", "tortilla"]
 const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15),
-	"oven": Color(0.7, 0.7, 0.72), "mill": Color(0.75, 0.6, 0.4), "well": Color(0.55, 0.55, 0.6)}
+	"oven": Color(0.7, 0.7, 0.72), "mill": Color(0.75, 0.6, 0.4), "well": Color(0.55, 0.55, 0.6),
+	"sign": Color(0.65, 0.5, 0.3)}
 
 var lit: bool = false
 
@@ -34,6 +36,8 @@ func get_prompt() -> String:
 			return "Cocinar (pan/sopa/tortilla)"
 		"well":
 			return "Sacar agua"
+		"sign":
+			return info_text if info_text != "" else "Cartel"
 	return prompt
 
 

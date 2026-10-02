@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=27 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -7,6 +7,21 @@
 [ext_resource type="Resource" path="res://resources/data/animals/vaca.tres" id="5"]
 [ext_resource type="Resource" path="res://resources/data/animals/perro.tres" id="6"]
 [ext_resource type="PackedScene" path="res://scenes/Prop.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/Tree.tscn" id="8"]
+
+[sub_resource type="StandardMaterial3D" id="mat_water"]
+albedo_color = Color(0.3, 0.55, 0.85, 1)
+
+[sub_resource type="PlaneMesh" id="mesh_river"]
+material = SubResource("mat_water")
+size = Vector2(24.0, 200.0)
+
+[sub_resource type="StandardMaterial3D" id="mat_path"]
+albedo_color = Color(0.6, 0.48, 0.32, 1)
+
+[sub_resource type="PlaneMesh" id="mesh_path"]
+material = SubResource("mat_path")
+size = Vector2(4.0, 100.0)
 
 [sub_resource type="StandardMaterial3D" id="mat_wood"]
 albedo_color = Color(0.5, 0.35, 0.2, 1)
@@ -54,10 +69,10 @@ albedo_color = Color(0.45, 0.68, 0.35, 1)
 
 [sub_resource type="PlaneMesh" id="ground_mesh"]
 material = SubResource("mat_ground")
-size = Vector2(60, 60)
+size = Vector2(200.0, 200.0)
 
 [sub_resource type="BoxShape3D" id="ground_col"]
-size = Vector3(60, 1, 60)
+size = Vector3(200.0, 1.0, 200.0)
 
 [node name="Main" type="Node3D"]
 
@@ -189,3 +204,40 @@ prop_id = "mill"
 [node name="Well" parent="." instance=ExtResource("7")]
 position = Vector3(1, 0.5, -6)
 prop_id = "well"
+
+[node name="River" type="MeshInstance3D" parent="."]
+position = Vector3(-90, 0.05, 0)
+mesh = SubResource("mesh_river")
+
+[node name="VillagePath" type="MeshInstance3D" parent="."]
+position = Vector3(15, 0.02, 60)
+mesh = SubResource("mesh_path")
+
+[node name="VillageSign" parent="." instance=ExtResource("7")]
+position = Vector3(15, 0.5, 12)
+prop_id = "sign"
+info_text = "Pueblo -> (en construccion)"
+
+[node name="Tree1" parent="." instance=ExtResource("8")]
+position = Vector3(70, 0, -30)
+
+[node name="Tree2" parent="." instance=ExtResource("8")]
+position = Vector3(80, 0, -15)
+
+[node name="Tree3" parent="." instance=ExtResource("8")]
+position = Vector3(75, 0, 0)
+
+[node name="Tree4" parent="." instance=ExtResource("8")]
+position = Vector3(85, 0, 12)
+
+[node name="Tree5" parent="." instance=ExtResource("8")]
+position = Vector3(72, 0, 25)
+
+[node name="Tree6" parent="." instance=ExtResource("8")]
+position = Vector3(88, 0, 35)
+
+[node name="Tree7" parent="." instance=ExtResource("8")]
+position = Vector3(78, 0, -38)
+
+[node name="Tree8" parent="." instance=ExtResource("8")]
+position = Vector3(66, 0, 8)
