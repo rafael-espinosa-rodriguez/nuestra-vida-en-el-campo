@@ -2,6 +2,9 @@
 
 1. **Godot 4.x clásica 4.7.2:** ✅ instalada en `%LOCALAPPDATA%\Programs\Godot`.
    Verificar: `Godot_v4.7.2-stable_win64_console.exe --version` → `4.7.2.stable`.
+   ⚠️ Esta PC no tiene Vulkan (`vulkan-1.dll` ausente) y el exe directo da error 126.
+   Abrir siempre con `Abrir-Godot-Proyecto.bat` (usa `--rendering-driver opengl3`).
+   Arreglo de fondo opcional: actualizar el driver AMD Radeon 780M (Adrenalin) para tener Vulkan.
 2. **Plugin MCP Toolkit:** ✅ en `addons/godot_mcp_toolkit` + servidor `godot` en opencode.
    Para activar la conexión: abre el proyecto en el editor → Project Settings → Plugins → activar
    "Godot MCP Toolkit" → Project → Tools → MCP Toolkit → Write .mcp.json. Ver `docs/MCP.md`.
