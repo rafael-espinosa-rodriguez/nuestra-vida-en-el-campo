@@ -90,6 +90,20 @@ func restore_energy(amount: float) -> void:
 	energy = clampf(energy + amount, 0.0, max_energy)
 
 
+const FOOD_ENERGY := {"pan": 30.0, "sopa": 45.0, "tortilla": 25.0, "huevo": 10.0,
+	"leche": 15.0, "zanahoria": 8.0, "tomate": 8.0, "trigo": 2.0}
+
+
+func eat(item_id: String) -> bool:
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	if inv == null or not FOOD_ENERGY.has(item_id):
+		return false
+	if not bool(inv.call("remove_item", item_id)):
+		return false
+	restore_energy(float(FOOD_ENERGY[item_id]))
+	return true
+
+
 func _on_area_entered(area: Area3D) -> void:
 	if area.has_method("get_prompt") and not nearby.has(area):
 		nearby.append(area)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/components/prop.gd" id="1"]
+
+[sub_resource type="BoxShape3D" id="area_shape"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[sub_resource type="BoxMesh" id="prop_mesh"]
+size = Vector3(1.0, 1.0, 1.0)
+
+[node name="Prop" type="Area3D"]
+script = ExtResource("1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("area_shape")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("prop_mesh")
+
+[node name="Glow" type="OmniLight3D" parent="."]
+visible = false
+light_energy = 1.5
+omni_range = 6.0

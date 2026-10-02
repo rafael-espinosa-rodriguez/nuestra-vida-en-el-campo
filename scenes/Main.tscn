@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=22 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -6,6 +6,41 @@
 [ext_resource type="PackedScene" path="res://scenes/Animal.tscn" id="4"]
 [ext_resource type="Resource" path="res://resources/data/animals/vaca.tres" id="5"]
 [ext_resource type="Resource" path="res://resources/data/animals/perro.tres" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/Prop.tscn" id="7"]
+
+[sub_resource type="StandardMaterial3D" id="mat_wood"]
+albedo_color = Color(0.5, 0.35, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_plaster"]
+albedo_color = Color(0.9, 0.85, 0.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_roof"]
+albedo_color = Color(0.65, 0.25, 0.2, 1)
+
+[sub_resource type="BoxMesh" id="mesh_floor"]
+material = SubResource("mat_wood")
+size = Vector3(6.0, 0.2, 5.0)
+
+[sub_resource type="BoxShape3D" id="shape_floor"]
+size = Vector3(6.0, 0.2, 5.0)
+
+[sub_resource type="BoxMesh" id="mesh_wall_h"]
+material = SubResource("mat_plaster")
+size = Vector3(6.0, 2.5, 0.3)
+
+[sub_resource type="BoxShape3D" id="shape_wall_h"]
+size = Vector3(6.0, 2.5, 0.3)
+
+[sub_resource type="BoxMesh" id="mesh_wall_v"]
+material = SubResource("mat_plaster")
+size = Vector3(0.3, 2.5, 5.0)
+
+[sub_resource type="BoxShape3D" id="shape_wall_v"]
+size = Vector3(0.3, 2.5, 5.0)
+
+[sub_resource type="BoxMesh" id="mesh_roof"]
+material = SubResource("mat_roof")
+size = Vector3(3.4, 0.15, 5.6)
 
 [sub_resource type="Environment" id="env_day"]
 background_mode = 1
@@ -89,3 +124,68 @@ position = Vector3(2, 0.6, -3)
 data = ExtResource("6")
 animal_name = "Toby"
 personality = "cariñoso"
+
+[node name="House" type="StaticBody3D" parent="."]
+position = Vector3(-4, 0, -6)
+
+[node name="FloorMesh" type="MeshInstance3D" parent="House"]
+position = Vector3(0, -0.1, 0)
+mesh = SubResource("mesh_floor")
+
+[node name="FloorCol" type="CollisionShape3D" parent="House"]
+position = Vector3(0, -0.1, 0)
+shape = SubResource("shape_floor")
+
+[node name="BackWallMesh" type="MeshInstance3D" parent="House"]
+position = Vector3(0, 1.25, -2.5)
+mesh = SubResource("mesh_wall_h")
+
+[node name="BackWallCol" type="CollisionShape3D" parent="House"]
+position = Vector3(0, 1.25, -2.5)
+shape = SubResource("shape_wall_h")
+
+[node name="LeftWallMesh" type="MeshInstance3D" parent="House"]
+position = Vector3(-3, 1.25, 0)
+mesh = SubResource("mesh_wall_v")
+
+[node name="LeftWallCol" type="CollisionShape3D" parent="House"]
+position = Vector3(-3, 1.25, 0)
+shape = SubResource("shape_wall_v")
+
+[node name="RightWallMesh" type="MeshInstance3D" parent="House"]
+position = Vector3(3, 1.25, 0)
+mesh = SubResource("mesh_wall_v")
+
+[node name="RightWallCol" type="CollisionShape3D" parent="House"]
+position = Vector3(3, 1.25, 0)
+shape = SubResource("shape_wall_v")
+
+[node name="RoofL" type="MeshInstance3D" parent="House"]
+position = Vector3(-1.5, 3.0, 0)
+rotation = Vector3(0, 0, 0.49)
+mesh = SubResource("mesh_roof")
+
+[node name="RoofR" type="MeshInstance3D" parent="House"]
+position = Vector3(1.5, 3.0, 0)
+rotation = Vector3(0, 0, -0.49)
+mesh = SubResource("mesh_roof")
+
+[node name="Bed" parent="." instance=ExtResource("7")]
+position = Vector3(-6, 0.5, -7)
+prop_id = "bed"
+
+[node name="Fireplace" parent="." instance=ExtResource("7")]
+position = Vector3(-2, 0.5, -7.6)
+prop_id = "fireplace"
+
+[node name="Oven" parent="." instance=ExtResource("7")]
+position = Vector3(-2, 0.5, -4.5)
+prop_id = "oven"
+
+[node name="Mill" parent="." instance=ExtResource("7")]
+position = Vector3(-6, 0.5, -4.5)
+prop_id = "mill"
+
+[node name="Well" parent="." instance=ExtResource("7")]
+position = Vector3(1, 0.5, -6)
+prop_id = "well"
