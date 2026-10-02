@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnimalData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/animal_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+species = "cabra"
+display_name = "Cabra"
+produce_id = "leche"
+produce_per_day = 1
+food_id = "trigo"
+follows_player = false
+tint = Color(0.75, 0.7, 0.65, 1)
+body_size = Vector3(0.7, 0.8, 1.0)
+walk_speed = 1.4

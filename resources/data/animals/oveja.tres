@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnimalData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/animal_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+species = "oveja"
+display_name = "Oveja"
+produce_id = "lana"
+produce_per_day = 1
+food_id = "trigo"
+follows_player = false
+tint = Color(0.92, 0.9, 0.85, 1)
+body_size = Vector3(0.9, 0.8, 1.1)
+walk_speed = 1.0

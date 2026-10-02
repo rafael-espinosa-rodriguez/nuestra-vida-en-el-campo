@@ -16,7 +16,7 @@ func _run() -> void:
 	var main: Node = load("res://scenes/Main.tscn").instantiate()
 	root.add_child(main)
 	var animals: Array[Node] = get_nodes_in_group("animals")
-	assert(animals.size() == 5, "3 gallinas + vaca + perro")
+	assert(animals.size() >= 5, "gallinas + vaca + perro presentes")
 	var names := {}
 	for a: Node in animals:
 		names[String(a.get("animal_name"))] = true

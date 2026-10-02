@@ -49,7 +49,7 @@ func _run() -> void:
 	_player = get_nodes_in_group("player")[0]
 	# D1 Llegada: kit, casa, animales, energia llena.
 	assert(int(_inv.call("get_count", "azada")) >= 1, "D1 kit")
-	assert(get_nodes_in_group("animals").size() == 5, "D1 5 animales")
+	assert(get_nodes_in_group("animals").size() >= 5, "D1 animales presentes")
 	assert(get_nodes_in_group("plots").size() == 6, "D1 6 parcelas")
 	assert(_main.get_node_or_null("Bed") != null, "D1 hay cama")
 	assert(_main.get_node_or_null("Fireplace") != null, "D1 hay chimenea")

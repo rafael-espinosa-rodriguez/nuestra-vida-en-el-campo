@@ -11,7 +11,8 @@ const RECIPES := ["pan", "sopa", "tortilla"]
 const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15),
 	"oven": Color(0.7, 0.7, 0.72), "mill": Color(0.75, 0.6, 0.4), "well": Color(0.55, 0.55, 0.6),
 	"sign": Color(0.65, 0.5, 0.3), "market": Color(0.8, 0.4, 0.25),
-	"fish": Color(0.35, 0.6, 0.85), "forage": Color(0.4, 0.6, 0.3)}
+	"fish": Color(0.35, 0.6, 0.85), "forage": Color(0.4, 0.6, 0.3),
+	"telar": Color(0.7, 0.5, 0.65)}
 
 var lit: bool = false
 var depleted: bool = false
@@ -60,6 +61,8 @@ func get_prompt() -> String:
 			return "Pescar (caña)"
 		"forage":
 			return "Recoger " + forage_id if not depleted else "Ya recogido (vuelve mañana)"
+		"telar":
+			return "Tejer tela (2 lana)"
 		"sign":
 			return info_text if info_text != "" else "Cartel"
 	return prompt
@@ -103,6 +106,10 @@ func interact(player: Node) -> void:
 				depleted = true
 				mesh.visible = false
 				inv.call("add_item", forage_id)
+		"telar":
+			if pl != null and inv != null and int(inv.call("get_count", "lana")) >= 2 and pl.spend_energy(4.0):
+				inv.call("remove_item", "lana", 2)
+				inv.call("add_item", "tela")
 
 
 func _cook(pl: Player, inv: Node) -> void:
