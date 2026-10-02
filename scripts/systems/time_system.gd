@@ -5,10 +5,39 @@ extends Node
 signal day_changed(new_day: int)
 signal time_changed(hour: float)
 
+const SEASONS := ["primavera", "verano", "otoño", "invierno"]
+const SEASON_TINTS := [Color(0.45, 0.68, 0.35), Color(0.55, 0.7, 0.3), Color(0.6, 0.5, 0.3), Color(0.9, 0.92, 0.95)]
+
 var current_day: int = 1
 var hour: float = 6.0
 var day_length_minutes: float = 20.0
 var last_sleep_late: bool = false
+var season_length_days: int = 7
+
+var _ground_mats: Array[StandardMaterial3D] = []
+
+
+func _ready() -> void:
+	for tint: Color in SEASON_TINTS:
+		var mat := StandardMaterial3D.new()
+		mat.albedo_color = tint
+		_ground_mats.append(mat)
+
+
+func season_index() -> int:
+	return int((current_day - 1) / season_length_days) % 4
+
+
+func season_name() -> String:
+	return SEASONS[season_index()]
+
+
+func day_in_season() -> int:
+	return int((current_day - 1) % season_length_days) + 1
+
+
+func is_festival_day() -> bool:
+	return day_in_season() == season_length_days
 
 
 func _process(delta: float) -> void:
@@ -80,3 +109,6 @@ func _apply_to_scene() -> void:
 		else:
 			light.light_color = noon
 	sun.rotation_degrees = Vector3(lerpf(-8.0, -172.0, t), -35.0, 0.0)
+	for g: Node in get_tree().get_nodes_in_group("ground"):
+		if g is MeshInstance3D and season_index() < _ground_mats.size():
+			(g as MeshInstance3D).set_surface_override_material(0, _ground_mats[season_index()])

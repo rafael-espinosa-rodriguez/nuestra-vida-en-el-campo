@@ -14,7 +14,8 @@ func _process(_delta: float) -> void:
 	var time_sys: Node = get_node_or_null("/root/TimeSystem")
 	if time_sys != null:
 		var h: float = float(time_sys.get("hour"))
-		time_label.text = "Dia %d  %02d:%02d  ·  Primavera" % [int(time_sys.get("current_day")), int(h), int((h - floor(h)) * 60.0)]
+		var season: String = String(time_sys.call("season_name")) if time_sys.has_method("season_name") else "primavera"
+		time_label.text = "Dia %d  %02d:%02d  ·  %s" % [int(time_sys.get("current_day")), int(h), int((h - floor(h)) * 60.0), season.capitalize()]
 	var weather: Node = get_node_or_null("/root/WeatherSystem")
 	if weather != null:
 		weather_label.text = ["☀ Soleado", "☁ Nublado", "🌧 Lluvia"][clampi(int(weather.get("current")), 0, 2)]

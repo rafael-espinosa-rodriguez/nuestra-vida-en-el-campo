@@ -6,8 +6,10 @@ extends InteractableArea3D
 enum State { UNTILLED, TILED, PLANTED, READY }
 
 # Duplicado MVP de resources/data/crops/*.tres (grow_days) para logica runtime.
-const GROW_DAYS := {"trigo": 3, "zanahoria": 2, "tomate": 4}
-const SEED_FOR := {"trigo": "semilla_trigo", "zanahoria": "semilla_zanahoria", "tomate": "semilla_tomate"}
+const GROW_DAYS := {"trigo": 3, "zanahoria": 2, "tomate": 4, "maiz": 3, "calabaza": 4}
+const SEED_FOR := {"trigo": "semilla_trigo", "zanahoria": "semilla_zanahoria", "tomate": "semilla_tomate", "maiz": "semilla_maiz", "calabaza": "semilla_calabaza"}
+# Temporadas por cultivo (0 prim, 1 ver, 2 oto). El tomate, del MVP de primavera, aguanta hasta verano.
+const SEASONS_FOR := {"trigo": [0], "zanahoria": [0], "tomate": [0, 1], "maiz": [1], "calabaza": [2]}
 
 var state: int = State.UNTILLED
 var crop_id: String = ""
@@ -40,7 +42,7 @@ func get_prompt() -> String:
 		State.UNTILLED:
 			return "Arar (azada)"
 		State.TILED:
-			return "Plantar semilla"
+			return "Plantar semilla de temporada"
 		State.PLANTED:
 			return "Regar (regadera)" if not watered else "Creciendo..."
 		State.READY:
@@ -73,10 +75,20 @@ func till() -> void:
 	_refresh()
 
 
+func in_season(crop: String) -> bool:
+	var time_sys: Node = get_node_or_null("/root/TimeSystem")
+	var season := 0
+	if time_sys != null and time_sys.has_method("season_index"):
+		season = int(time_sys.call("season_index"))
+	return SEASONS_FOR.has(crop) and int(season) in SEASONS_FOR[crop]
+
+
 func plant_first_seed() -> bool:
 	if state != State.TILED:
 		return false
-	for crop: String in ["trigo", "zanahoria", "tomate"]:
+	for crop: String in ["trigo", "zanahoria", "tomate", "maiz", "calabaza"]:
+		if not in_season(crop):
+			continue
 		var seed: String = String(SEED_FOR[crop])
 		if InventorySystem.has(seed):
 			InventorySystem.remove_item(seed)
@@ -91,6 +103,8 @@ func plant_first_seed() -> bool:
 
 func plant(crop: String) -> bool:
 	if state != State.TILED or not GROW_DAYS.has(crop):
+		return false
+	if not in_season(crop):
 		return false
 	var seed: String = String(SEED_FOR[crop])
 	if not InventorySystem.has(seed):
