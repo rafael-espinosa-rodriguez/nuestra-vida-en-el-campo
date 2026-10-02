@@ -50,3 +50,19 @@ func _on_continue_button_pressed() -> void:
 func _on_quit_button_pressed() -> void:
 	print("TITLE: Salir pulsado")
 	get_tree().quit()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	# Atajos de teclado: funcionan aunque el raton falle (diagnostico + accesibilidad).
+	if event is InputEventKey and event.pressed and not event.echo:
+		match event.keycode:
+			KEY_1:
+				print("TITLE: tecla 1")
+				new_game()
+			KEY_2:
+				print("TITLE: tecla 2")
+				if not continue_button.disabled:
+					continue_game()
+			KEY_3:
+				print("TITLE: tecla 3")
+				get_tree().quit()

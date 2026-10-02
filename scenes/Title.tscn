@@ -1,9 +1,40 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/title.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/art/titulo_amanecer.png" id="2"]
 [ext_resource type="FontFile" path="res://assets/fonts/Epilogue-Bold.ttf" id="3"]
 [ext_resource type="FontFile" path="res://assets/fonts/Quicksand-Bold.ttf" id="4"]
+
+[sub_resource type="Gradient" id="sky_grad"]
+offsets = PackedFloat32Array(0, 0.45, 0.75, 1)
+colors = PackedColorArray(1, 0.93, 0.79, 1, 0.96, 0.72, 0.32, 1, 0.62, 0.75, 0.5, 1, 0.31, 0.49, 0.34, 1)
+
+[sub_resource type="GradientTexture2D" id="sky_tex"]
+gradient = SubResource("sky_grad")
+width = 16
+height = 256
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="sun_disc"]
+bg_color = Color(1, 0.965, 0.86, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="hill_back"]
+bg_color = Color(0.5, 0.65, 0.39, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
+
+[sub_resource type="StyleBoxFlat" id="hill_front"]
+bg_color = Color(0.31, 0.49, 0.34, 1)
+corner_radius_top_left = 999
+corner_radius_top_right = 999
+corner_radius_bottom_right = 999
+corner_radius_bottom_left = 999
 
 [sub_resource type="StyleBoxFlat" id="plaque"]
 bg_color = Color(1, 0.952941, 0.878431, 1)
@@ -124,7 +155,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Sky" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -132,9 +163,49 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2")
+texture = SubResource("sky_tex")
 expand_mode = 1
-stretch_mode = 5
+
+[node name="Sun" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.66
+anchor_top = 0.1
+anchor_right = 0.66
+anchor_bottom = 0.1
+offset_right = 170.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("sun_disc")
+
+[node name="HillBack" type="Panel" parent="."]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -300.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("hill_back")
+
+[node name="HillFront" type="Panel" parent="."]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("hill_front")
 
 [node name="Center" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -210,3 +281,15 @@ theme_override_styles/hover = SubResource("btn_brown_hover")
 theme_override_styles/pressed = SubResource("btn_brown_pressed")
 theme_override_styles/disabled = SubResource("btn_disabled")
 text = "Salir"
+
+[node name="HintLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 28.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.88, 0.85)
+theme_override_fonts/font = ExtResource("4")
+theme_override_font_sizes/font_size = 16
+text = "Pulsa 1 / 2 / 3 o haz clic  ·  v0.1"
+horizontal_alignment = 1
