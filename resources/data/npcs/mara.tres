@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NPCData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/npc_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Mara"
+age = 45
+profession = "tendera"
+personality = "practica"
+favorite_gift = "huevo"
+tint = Color(0.7, 0.4, 0.5, 1)
+dialogues = {"manana": PackedStringArray("Buenos dias. ¿Semillas para hoy?", "Temprano como siempre, me gusta."), "dia": PackedStringArray("Tengo semillas frescas de primavera.", "El pan de tu horno huele hasta aqui."), "tarde": PackedStringArray("Cierro al atardecer, date prisa.", "Que colores trae el cielo hoy."), "noche": PackedStringArray("Ya cerre, vuelve mañana.", "Descansa, mañana sera otro dia."), "lluvia": PackedStringArray("Con lluvia no hay mercado, pero la tienda abre.", "Buen dia para hornear pan.")}
+

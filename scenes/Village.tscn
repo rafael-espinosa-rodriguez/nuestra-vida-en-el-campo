@@ -1,6 +1,10 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Prop.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/NPC.tscn" id="2"]
+[ext_resource type="Resource" path="res://resources/data/npcs/mara.tres" id="3"]
+[ext_resource type="Resource" path="res://resources/data/npcs/bram.tres" id="4"]
+[ext_resource type="Resource" path="res://resources/data/npcs/nara.tres" id="5"]
 
 [sub_resource type="StandardMaterial3D" id="mat_wood"]
 albedo_color = Color(0.5, 0.35, 0.2, 1)
@@ -266,3 +270,27 @@ info_text = "Tienda de Mara: semillas y mas"
 position = Vector3(5.5, 0.5, 12.5)
 prop_id = "sign"
 info_text = "Herreria de Bram"
+
+[node name="Mara" parent="." instance=ExtResource("2")]
+position = Vector3(-8, 0.1, -4)
+data = ExtResource("3")
+npc_name = "Mara"
+home_pos = Vector3(-8, 0.1, -4)
+work_pos = Vector3(-8, 0.1, 12)
+plaza_pos = Vector3(0, 0.1, 4)
+
+[node name="Bram" parent="." instance=ExtResource("2")]
+position = Vector3(8, 0.1, -4)
+data = ExtResource("4")
+npc_name = "Bram"
+home_pos = Vector3(8, 0.1, -4)
+work_pos = Vector3(8, 0.1, 12)
+plaza_pos = Vector3(0, 0.1, 4)
+
+[node name="Nara" parent="." instance=ExtResource("2")]
+position = Vector3(8, 0.1, -4)
+data = ExtResource("5")
+npc_name = "Nara"
+home_pos = Vector3(8, 0.1, -4)
+work_pos = Vector3(0, 0.1, 4)
+plaza_pos = Vector3(-4, 0.1, 4)

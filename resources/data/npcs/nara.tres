@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="NPCData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/npc_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Nara"
+age = 29
+profession = "vecina"
+personality = "curiosa"
+favorite_gift = "tortilla"
+tint = Color(0.5, 0.65, 0.5, 1)
+dialogues = {"manana": PackedStringArray("¿Viste la niebla del rio? Preciosa.", "Dicen que el bosque esconde setas."), "dia": PackedStringArray("¿Ya conoces a Toby? Es un amor.", "Me encanta como quedo tu huerto."), "tarde": PackedStringArray("A esta hora paseo hasta la plaza.", "¿Me guardas una tortilla algun dia?"), "noche": PackedStringArray("Las estrellas sobre el valle... mira.", "Buenas noches, vecino."), "lluvia": PackedStringArray("Amo el olor de la lluvia en la tierra.", "¿Tomamos algo caliente?")}
+
