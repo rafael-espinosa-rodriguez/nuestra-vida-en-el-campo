@@ -7,10 +7,12 @@ extends Control
 
 
 func _ready() -> void:
+	print("TITLE: menu listo")
 	continue_button.disabled = not FileAccess.file_exists("user://savegame.json")
 	new_button.pressed.connect(_on_new_button_pressed)
 	continue_button.pressed.connect(_on_continue_button_pressed)
 	quit_button.pressed.connect(_on_quit_button_pressed)
+	new_button.grab_focus()
 
 
 func new_game() -> void:
@@ -36,12 +38,15 @@ func _goto_main() -> void:
 
 
 func _on_new_button_pressed() -> void:
+	print("TITLE: Nueva partida pulsado")
 	new_game()
 
 
 func _on_continue_button_pressed() -> void:
+	print("TITLE: Continuar pulsado")
 	continue_game()
 
 
 func _on_quit_button_pressed() -> void:
+	print("TITLE: Salir pulsado")
 	get_tree().quit()
