@@ -1,0 +1,34 @@
+# Godot 4 .NET + C# gitignore
+.godot/
+bin/
+obj/
+Library/
+*.translation
+*.godot.converted/
+
+# Build outputs
+Builds/
+Export/
+*.pck
+*.zip
+*.exe
+
+# VS / Rider / VSCode
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.sln.docstates
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Saves locales de test
+savegame_test.json

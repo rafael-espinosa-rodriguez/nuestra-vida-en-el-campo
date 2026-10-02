@@ -1,0 +1,43 @@
+; Engine configuration file.
+; Nuestra Vida en el Campo — Godot 4 + C# (.NET). MVP semana completa primavera.
+
+config_version=5
+
+[application]
+
+config/name="Nuestra Vida en el Campo"
+config/description="Simulador de vida rural cozy en el campo de Azerbaiyan. MVP: semana completa en primavera."
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility", "C#")
+config/icon="res://icon.svg"
+
+[autoload]
+
+TimeSystem="*res://scripts/systems/TimeSystem.cs"
+SaveSystem="*res://scripts/systems/SaveSystem.cs"
+InventorySystem="*res://scripts/systems/InventorySystem.cs"
+AnimalSystem="*res://scripts/systems/AnimalSystem.cs"
+FarmingSystem="*res://scripts/systems/FarmingSystem.cs"
+WeatherSystem="*res://scripts/systems/WeatherSystem.cs"
+AudioSystem="*res://scripts/systems/AudioSystem.cs"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+
+[dotnet]
+
+project/assembly_name="NuestraVidaEnElCampo"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.53, 0.75, 0.95, 1)
+textures/vram_compression/import_etc2_astc=true

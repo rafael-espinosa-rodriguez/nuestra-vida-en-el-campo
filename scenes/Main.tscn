@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://nvdc_main_mvp"]
+
+[ext_resource type="Script" path="res://scripts/systems/TimeSystem.cs" id="1"]
+[ext_resource type="Script" path="res://scripts/Player.cs" id="2"]
+
+[node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.7, 0.7, 0, -0.7, 0.7, 0, 8, 0)
+
+[node name="Ground" type="StaticBody3D" parent="."]
+[node name="GroundMesh" type="MeshInstance3D" parent="Ground"]
+[node name="GroundCol" type="CollisionShape3D" parent="Ground"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("2")
