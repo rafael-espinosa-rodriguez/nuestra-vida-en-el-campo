@@ -17,7 +17,7 @@ func save_game() -> bool:
 		"animals": _get_animals(),
 		"relations": _get_relations(),
 		"money": _get_money(),
-		"memories": [],
+		"memories": _get_memories(),
 	}
 	var err := _write(data)
 	if err:
@@ -67,6 +67,10 @@ func load_game() -> bool:
 		var inv2: Node = get_node_or_null("/root/InventorySystem")
 		if inv2 != null:
 			inv2.set("money", int(data["money"]))
+	if data.has("memories") and typeof(data["memories"]) == TYPE_DICTIONARY:
+		var mem: Node = get_node_or_null("/root/MemorySystem")
+		if mem != null and mem.has_method("deserialize"):
+			mem.call("deserialize", data["memories"])
 	return true
 
 
@@ -124,6 +128,13 @@ func _get_relations() -> Dictionary:
 func _get_money() -> int:
 	var inv: Node = get_node_or_null("/root/InventorySystem")
 	return int(inv.get("money")) if inv != null else 0
+
+
+func _get_memories() -> Dictionary:
+	var mem: Node = get_node_or_null("/root/MemorySystem")
+	if mem != null and mem.has_method("serialize"):
+		return mem.call("serialize")
+	return {}
 
 
 func _player_pos() -> Array:

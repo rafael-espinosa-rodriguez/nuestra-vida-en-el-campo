@@ -27,6 +27,9 @@ func _ready() -> void:
 func add_item(item_id: String, amount: int = 1) -> void:
 	items[item_id] = int(items.get(item_id, 0)) + amount
 	items_changed.emit()
+	var mem: Node = get_node_or_null("/root/MemorySystem")
+	if mem != null and mem.has_method("remember_first"):
+		mem.remember_first(item_id)
 
 
 func remove_item(item_id: String, amount: int = 1) -> bool:

@@ -8,9 +8,25 @@ extends CanvasLayer
 @onready var tool_label: Label = $TopLeft/ToolLabel
 @onready var money_label: Label = $TopLeft/MoneyLabel
 @onready var prompt_label: Label = $Prompt/PromptLabel
+@onready var message_label: Label = $Message
+
+var _message_t := 0.0
 
 
-func _process(_delta: float) -> void:
+func _ready() -> void:
+	add_to_group("hud")
+
+
+func show_message(text: String, duration: float = 4.0) -> void:
+	message_label.text = text
+	_message_t = duration
+
+
+func _process(delta: float) -> void:
+	if _message_t > 0.0:
+		_message_t -= delta
+		if _message_t <= 0.0:
+			message_label.text = ""
 	var time_sys: Node = get_node_or_null("/root/TimeSystem")
 	if time_sys != null:
 		var h: float = float(time_sys.get("hour"))

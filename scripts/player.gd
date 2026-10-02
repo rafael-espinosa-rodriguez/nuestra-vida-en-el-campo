@@ -53,6 +53,29 @@ func _physics_process(delta: float) -> void:
 		var rel2: Node = get_node_or_null("/root/RelationshipSystem")
 		if rel2 != null:
 			rel2.call("trade_with", String(current.get("npc_name")))
+	if Input.is_action_just_pressed("photo"):
+		capture_photo()
+
+
+func capture_photo() -> bool:
+	# Guarda user://photos/foto_<n>.png. En headless (sin GPU) falla con elegancia.
+	if DisplayServer.get_name() == "headless":
+		return false
+	var img: Image = get_viewport().get_texture().get_image()
+	if img == null or img.is_empty():
+		return false
+	var mem: Node = get_node_or_null("/root/MemorySystem")
+	var n := 1
+	if mem != null:
+		n = int(mem.get("photos_taken")) + 1
+	DirAccess.make_dir_recursive_absolute("user://photos")
+	var path := "user://photos/foto_%d.png" % n
+	if img.save_png(path) != OK:
+		return false
+	if mem != null:
+		mem.set("photos_taken", n)
+		mem.call("remember", "foto_%d" % n)
+	return true
 
 
 func _unhandled_input(event: InputEvent) -> void:
