@@ -319,6 +319,14 @@ prop_id = "telar"
 position = Vector3(-10, 0.5, 8)
 prop_id = "corral"
 
+[node name="Quesera" parent="." instance=ExtResource("7")]
+position = Vector3(0, 0.5, -4.5)
+prop_id = "quesera"
+
+[node name="Conservera" parent="." instance=ExtResource("7")]
+position = Vector3(-6, 0.5, -5.8)
+prop_id = "conservera"
+
 [node name="Snow" type="CPUParticles3D" parent="." groups=["snow"]]
 visible = false
 amount = 500

@@ -13,7 +13,8 @@ const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15
 	"sign": Color(0.65, 0.5, 0.3), "market": Color(0.8, 0.4, 0.25),
 	"fish": Color(0.35, 0.6, 0.85), "forage": Color(0.4, 0.6, 0.3),
 	"telar": Color(0.7, 0.5, 0.65), "decor": Color(0.85, 0.7, 0.5),
-	"corral": Color(0.55, 0.45, 0.3)}
+	"corral": Color(0.55, 0.45, 0.3), "quesera": Color(0.9, 0.85, 0.55),
+	"conservera": Color(0.5, 0.65, 0.45)}
 
 const DECOR_CATALOG := [
 	{"id": "decor_maceta", "name": "Maceta", "price": 10, "node": "DecorMaceta"},
@@ -81,6 +82,10 @@ func get_prompt() -> String:
 			return "Recoger " + forage_id if not depleted else "Ya recogido (vuelve mañana)"
 		"telar":
 			return "Tejer tela (2 lana)"
+		"quesera":
+			return "Hacer queso/yogur (leche)"
+		"conservera":
+			return "Encurtir (zanahoria+tomate)"
 		"corral":
 			return "Criar (2 adultos + 2 trigo)"
 		"decor":
@@ -112,7 +117,7 @@ func interact(player: Node) -> void:
 				inv.call("add_item", "harina")
 		"oven":
 			if pl != null:
-				_cook(pl, inv)
+				_cook(pl, inv, RECIPES)
 		"well":
 			if inv != null:
 				inv.call("add_item", "agua")
@@ -135,6 +140,12 @@ func interact(player: Node) -> void:
 			if pl != null and inv != null and int(inv.call("get_count", "lana")) >= 2 and pl.spend_energy(4.0):
 				inv.call("remove_item", "lana", 2)
 				inv.call("add_item", "tela")
+		"quesera":
+			if pl != null:
+				_cook(pl, inv, ["queso", "yogur"])
+		"conservera":
+			if pl != null:
+				_cook(pl, inv, ["encurtido"])
 		"corral":
 			var herd: Node = get_node_or_null("/root/AnimalSystem")
 			if herd != null:
@@ -182,10 +193,10 @@ func _sync_decor() -> void:
 				(node as MeshInstance3D).visible = bool(inv.call("has", String(entry["id"])))
 
 
-func _cook(pl: Player, inv: Node) -> void:
+func _cook(pl: Player, inv: Node, rids: Array = RECIPES) -> void:
 	if inv == null:
 		return
-	for rid: String in RECIPES:
+	for rid: String in rids:
 		var recipe: RecipeData = load("res://resources/data/recipes/" + rid + ".tres")
 		if recipe == null:
 			continue

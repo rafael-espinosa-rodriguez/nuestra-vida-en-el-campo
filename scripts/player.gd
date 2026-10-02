@@ -127,7 +127,7 @@ func restore_energy(amount: float) -> void:
 
 const FOOD_ENERGY := {"pan": 30.0, "sopa": 45.0, "tortilla": 25.0, "huevo": 10.0,
 	"leche": 15.0, "zanahoria": 8.0, "tomate": 8.0, "trigo": 2.0, "pez": 12.0, "seta": 6.0,
-	"maiz": 10.0, "calabaza": 15.0}
+	"maiz": 10.0, "calabaza": 15.0, "queso": 20.0, "yogur": 12.0, "encurtido": 18.0}
 
 
 func eat(item_id: String) -> bool:
