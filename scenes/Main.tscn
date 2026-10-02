@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=11 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/Plot.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/Animal.tscn" id="4"]
+[ext_resource type="Resource" path="res://resources/data/animals/vaca.tres" id="5"]
+[ext_resource type="Resource" path="res://resources/data/animals/perro.tres" id="6"]
 
 [sub_resource type="Environment" id="env_day"]
 background_mode = 1
@@ -59,3 +62,30 @@ position = Vector3(0, 0, 9)
 
 [node name="Plot6" parent="." instance=ExtResource("3")]
 position = Vector3(4, 0, 9)
+
+[node name="Misha" parent="." instance=ExtResource("4")]
+position = Vector3(8, 0.6, 2)
+animal_name = "Misha"
+personality = "juguetón"
+
+[node name="Zara" parent="." instance=ExtResource("4")]
+position = Vector3(9, 0.6, 3)
+animal_name = "Zara"
+personality = "curioso"
+
+[node name="Lola" parent="." instance=ExtResource("4")]
+position = Vector3(8.5, 0.6, 4)
+animal_name = "Lola"
+personality = "tímido"
+
+[node name="Clara" parent="." instance=ExtResource("4")]
+position = Vector3(-8, 0.6, 0)
+data = ExtResource("5")
+animal_name = "Clara"
+personality = "tranquilo"
+
+[node name="Toby" parent="." instance=ExtResource("4")]
+position = Vector3(2, 0.6, -3)
+data = ExtResource("6")
+animal_name = "Toby"
+personality = "cariñoso"

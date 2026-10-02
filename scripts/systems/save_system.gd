@@ -14,6 +14,7 @@ func save_game() -> bool:
 		"player_pos": _player_pos(),
 		"inventory": _get_inventory(),
 		"plots": _get_plots(),
+		"animals": _get_animals(),
 		"money": 0,
 		"memories": [],
 	}
@@ -53,6 +54,10 @@ func load_game() -> bool:
 		var farm: Node = get_node_or_null("/root/FarmingSystem")
 		if farm != null and farm.has_method("deserialize"):
 			farm.deserialize(data["plots"])
+	if data.has("animals") and typeof(data["animals"]) == TYPE_ARRAY:
+		var herd: Node = get_node_or_null("/root/AnimalSystem")
+		if herd != null and herd.has_method("deserialize"):
+			herd.deserialize(data["animals"])
 	return true
 
 
@@ -90,6 +95,13 @@ func _get_plots() -> Array:
 	var farm: Node = get_node_or_null("/root/FarmingSystem")
 	if farm != null and farm.has_method("serialize"):
 		return farm.serialize()
+	return []
+
+
+func _get_animals() -> Array:
+	var herd: Node = get_node_or_null("/root/AnimalSystem")
+	if herd != null and herd.has_method("serialize"):
+		return herd.serialize()
 	return []
 
 

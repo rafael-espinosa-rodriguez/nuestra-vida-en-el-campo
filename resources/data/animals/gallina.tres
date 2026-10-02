@@ -1,0 +1,16 @@
+﻿[gd_resource type="Resource" script_class="AnimalData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/animal_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+species = "gallina"
+display_name = "Gallina"
+produce_id = "huevo"
+produce_per_day = 1
+food_id = "trigo"
+follows_player = false
+tint = Color(1, 1, 1, 1)
+body_size = Vector3(0.5, 0.5, 0.7)
+walk_speed = 1.2
+

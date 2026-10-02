@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/components/animal.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/data/animals/gallina.tres" id="2"]
+
+[sub_resource type="CapsuleShape3D" id="body_col"]
+radius = 0.35
+height = 1.1
+
+[sub_resource type="BoxMesh" id="body_mesh"]
+size = Vector3(0.6, 0.6, 0.8)
+
+[node name="Animal" type="CharacterBody3D"]
+script = ExtResource("1")
+data = ExtResource("2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("body_col")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("body_mesh")
+
+[node name="NameLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+billboard = 1
+text = "Animal"
+font_size = 48
