@@ -1,0 +1,268 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/Prop.tscn" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="mat_wood"]
+albedo_color = Color(0.5, 0.35, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_plaster"]
+albedo_color = Color(0.9, 0.85, 0.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_roof"]
+albedo_color = Color(0.65, 0.25, 0.2, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_stone"]
+albedo_color = Color(0.6, 0.6, 0.62, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.25, 0.18, 0.12, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_win"]
+albedo_color = Color(1.0, 0.85, 0.4, 1)
+
+[sub_resource type="StandardMaterial3D" id="mat_awn"]
+albedo_color = Color(0.8, 0.4, 0.25, 1)
+
+[sub_resource type="BoxMesh" id="m_house"]
+material = SubResource("mat_plaster")
+size = Vector3(4.0, 3.0, 5.0)
+
+[sub_resource type="BoxShape3D" id="s_house"]
+size = Vector3(4.0, 3.0, 5.0)
+
+[sub_resource type="BoxMesh" id="m_roof"]
+material = SubResource("mat_roof")
+size = Vector3(2.6, 0.15, 5.6)
+
+[sub_resource type="BoxMesh" id="m_door"]
+material = SubResource("mat_dark")
+size = Vector3(1.0, 2.0, 0.1)
+
+[sub_resource type="BoxMesh" id="m_win"]
+material = SubResource("mat_win")
+size = Vector3(0.8, 0.8, 0.1)
+
+[sub_resource type="BoxMesh" id="m_chim"]
+material = SubResource("mat_stone")
+size = Vector3(0.6, 2.4, 0.6)
+
+[sub_resource type="CylinderMesh" id="m_plaza"]
+material = SubResource("mat_stone")
+top_radius = 5.0
+bottom_radius = 5.0
+height = 0.12
+
+[sub_resource type="BoxMesh" id="m_table"]
+material = SubResource("mat_wood")
+size = Vector3(2.4, 0.9, 1.2)
+
+[sub_resource type="BoxShape3D" id="s_table"]
+size = Vector3(2.4, 0.9, 1.2)
+
+[sub_resource type="BoxMesh" id="m_post"]
+material = SubResource("mat_wood")
+size = Vector3(0.15, 2.4, 0.15)
+
+[sub_resource type="BoxMesh" id="m_awn"]
+material = SubResource("mat_awn")
+size = Vector3(3.2, 0.12, 2.2)
+
+[sub_resource type="CylinderMesh" id="m_pole"]
+material = SubResource("mat_dark")
+top_radius = 0.09
+bottom_radius = 0.09
+height = 3.0
+
+[sub_resource type="SphereMesh" id="m_head"]
+material = SubResource("mat_win")
+radius = 0.25
+height = 0.5
+
+[node name="Village" type="Node3D"]
+
+[node name="CasaA" type="StaticBody3D" parent="."]
+position = Vector3(-8, 0, -4)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="CasaA"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("m_house")
+
+[node name="BodyCol" type="CollisionShape3D" parent="CasaA"]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("s_house")
+
+[node name="RoofL" type="MeshInstance3D" parent="CasaA"]
+position = Vector3(-1.05, 3.5, 0)
+rotation = Vector3(0, 0, 0.5)
+mesh = SubResource("m_roof")
+
+[node name="RoofR" type="MeshInstance3D" parent="CasaA"]
+position = Vector3(1.05, 3.5, 0)
+rotation = Vector3(0, 0, -0.5)
+mesh = SubResource("m_roof")
+
+[node name="Door" type="MeshInstance3D" parent="CasaA"]
+position = Vector3(0, 1.0, 2.55)
+mesh = SubResource("m_door")
+
+[node name="Win1" type="MeshInstance3D" parent="CasaA"]
+position = Vector3(-1.2, 1.8, 2.55)
+mesh = SubResource("m_win")
+
+[node name="Win2" type="MeshInstance3D" parent="CasaA"]
+position = Vector3(1.2, 1.8, 2.55)
+mesh = SubResource("m_win")
+
+[node name="CasaB" type="StaticBody3D" parent="."]
+position = Vector3(8, 0, -4)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="CasaB"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("m_house")
+
+[node name="BodyCol" type="CollisionShape3D" parent="CasaB"]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("s_house")
+
+[node name="RoofL" type="MeshInstance3D" parent="CasaB"]
+position = Vector3(-1.05, 3.5, 0)
+rotation = Vector3(0, 0, 0.5)
+mesh = SubResource("m_roof")
+
+[node name="RoofR" type="MeshInstance3D" parent="CasaB"]
+position = Vector3(1.05, 3.5, 0)
+rotation = Vector3(0, 0, -0.5)
+mesh = SubResource("m_roof")
+
+[node name="Door" type="MeshInstance3D" parent="CasaB"]
+position = Vector3(0, 1.0, 2.55)
+mesh = SubResource("m_door")
+
+[node name="Win1" type="MeshInstance3D" parent="CasaB"]
+position = Vector3(-1.2, 1.8, 2.55)
+mesh = SubResource("m_win")
+
+[node name="Win2" type="MeshInstance3D" parent="CasaB"]
+position = Vector3(1.2, 1.8, 2.55)
+mesh = SubResource("m_win")
+
+[node name="Tienda" type="StaticBody3D" parent="."]
+position = Vector3(-8, 0, 10)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Tienda"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("m_house")
+
+[node name="BodyCol" type="CollisionShape3D" parent="Tienda"]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("s_house")
+
+[node name="RoofL" type="MeshInstance3D" parent="Tienda"]
+position = Vector3(-1.05, 3.5, 0)
+rotation = Vector3(0, 0, 0.5)
+mesh = SubResource("m_roof")
+
+[node name="RoofR" type="MeshInstance3D" parent="Tienda"]
+position = Vector3(1.05, 3.5, 0)
+rotation = Vector3(0, 0, -0.5)
+mesh = SubResource("m_roof")
+
+[node name="Door" type="MeshInstance3D" parent="Tienda"]
+position = Vector3(0, 1.0, 2.55)
+mesh = SubResource("m_door")
+
+[node name="Win1" type="MeshInstance3D" parent="Tienda"]
+position = Vector3(-1.2, 1.8, 2.55)
+mesh = SubResource("m_win")
+
+[node name="Win2" type="MeshInstance3D" parent="Tienda"]
+position = Vector3(1.2, 1.8, 2.55)
+mesh = SubResource("m_win")
+
+[node name="Herreria" type="StaticBody3D" parent="."]
+position = Vector3(8, 0, 10)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Herreria"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("m_house")
+
+[node name="BodyCol" type="CollisionShape3D" parent="Herreria"]
+position = Vector3(0, 1.5, 0)
+shape = SubResource("s_house")
+
+[node name="RoofL" type="MeshInstance3D" parent="Herreria"]
+position = Vector3(-1.05, 3.5, 0)
+rotation = Vector3(0, 0, 0.5)
+mesh = SubResource("m_roof")
+
+[node name="RoofR" type="MeshInstance3D" parent="Herreria"]
+position = Vector3(1.05, 3.5, 0)
+rotation = Vector3(0, 0, -0.5)
+mesh = SubResource("m_roof")
+
+[node name="Door" type="MeshInstance3D" parent="Herreria"]
+position = Vector3(0, 1.0, 2.55)
+mesh = SubResource("m_door")
+
+[node name="Chimney" type="MeshInstance3D" parent="Herreria"]
+position = Vector3(1.2, 4.2, 0)
+mesh = SubResource("m_chim")
+
+[node name="Plaza" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.06, 4)
+mesh = SubResource("m_plaza")
+
+[node name="Puesto" type="StaticBody3D" parent="."]
+position = Vector3(0, 0, 7)
+
+[node name="TableMesh" type="MeshInstance3D" parent="Puesto"]
+position = Vector3(0, 0.45, 0)
+mesh = SubResource("m_table")
+
+[node name="TableCol" type="CollisionShape3D" parent="Puesto"]
+position = Vector3(0, 0.45, 0)
+shape = SubResource("s_table")
+
+[node name="Post1" type="MeshInstance3D" parent="Puesto"]
+position = Vector3(-1.4, 1.2, 0)
+mesh = SubResource("m_post")
+
+[node name="Post2" type="MeshInstance3D" parent="Puesto"]
+position = Vector3(1.4, 1.2, 0)
+mesh = SubResource("m_post")
+
+[node name="Awning" type="MeshInstance3D" parent="Puesto"]
+position = Vector3(0, 2.4, 0)
+mesh = SubResource("m_awn")
+
+[node name="Farola1" type="Node3D" parent="."]
+position = Vector3(-4, 0, 4)
+
+[node name="Pole" type="MeshInstance3D" parent="Farola1"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("m_pole")
+
+[node name="Head" type="MeshInstance3D" parent="Farola1"]
+position = Vector3(0, 3.1, 0)
+mesh = SubResource("m_head")
+
+[node name="Farola2" type="Node3D" parent="."]
+position = Vector3(4, 0, 4)
+
+[node name="Pole" type="MeshInstance3D" parent="Farola2"]
+position = Vector3(0, 1.5, 0)
+mesh = SubResource("m_pole")
+
+[node name="Head" type="MeshInstance3D" parent="Farola2"]
+position = Vector3(0, 3.1, 0)
+mesh = SubResource("m_head")
+
+[node name="TiendaSign" parent="." instance=ExtResource("1")]
+position = Vector3(-5.5, 0.5, 12.5)
+prop_id = "sign"
+info_text = "Tienda de Mara: semillas y mas"
+
+[node name="HerreriaSign" parent="." instance=ExtResource("1")]
+position = Vector3(5.5, 0.5, 12.5)
+prop_id = "sign"
+info_text = "Herreria de Bram"
