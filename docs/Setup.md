@@ -1,18 +1,15 @@
-# Setup — qué instalar en esta máquina (pendiente)
+# Setup — estado de esta máquina
 
-1. **Godot 4.x .NET (no la clásica):** https://godotengine.org/download → pestaña `.NET`.
-   Verificar: `godot --version` abre el proyecto sin errores C#.
-2. **.NET 8 SDK:** https://dotnet.microsoft.com/download → `dotnet --version` debe dar `8.x`.
-3. **Git LFS:** `git lfs install` (para `assets/`).
-4. **gh CLI (para GitHub):** https://cli.github.com → `gh auth login` → crear repo:
+1. **Godot 4.x clásica 4.7.2:** ✅ instalada en `%LOCALAPPDATA%\Programs\Godot`.
+   Verificar: `Godot_v4.7.2-stable_win64_console.exe --version` → `4.7.2.stable`.
+2. **Plugin MCP Toolkit:** ✅ en `addons/godot_mcp_toolkit` + servidor `godot` en opencode.
+   Para activar la conexión: abre el proyecto en el editor → Project Settings → Plugins → activar
+   "Godot MCP Toolkit" → Project → Tools → MCP Toolkit → Write .mcp.json. Ver `docs/MCP.md`.
+   El servidor MCP (`npx -y @npgamedev/godot-mcp-server`) se conecta solo cuando el editor está abierto.
+3. **Git LFS:** pendiente `git lfs install` (para `assets/`).
+4. **Repo GitHub:** https://github.com/rafael-espinosa-rodriguez/nuestra-vida-en-el-campo (creado, pendiente push con auth):
    ```
-   gh repo create nuestra-vida-en-el-campo --public --source=. --push
-   ```
-   Sin `gh`: crea el repo vacío en github.com/new con nombre `nuestra-vida-en-el-campo` y luego:
-   ```
-   git remote add origin https://github.com/<tu-usuario>/nuestra-vida-en-el-campo.git
+   git remote add origin https://github.com/rafael-espinosa-rodriguez/nuestra-vida-en-el-campo.git
    git branch -M main
    git push -u origin main
    ```
-
-Estado actual detectado: git OK; Godot NO, .NET SDK NO, gh NO.

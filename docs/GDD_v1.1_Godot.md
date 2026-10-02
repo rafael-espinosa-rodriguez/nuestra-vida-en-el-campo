@@ -1,11 +1,11 @@
-# GDD v1.1 — Nuestra Vida en el Campo (Godot + C#)
+# GDD v1.1 — Nuestra Vida en el Campo (Godot clásica + GDScript)
 
-> Adaptación del GDD v1.0 (documento Word original) a **Godot 4.x .NET + C#**.
+> Adaptación del GDD v1.0 (documento Word original) a **Godot 4.x clásica + GDScript**.
 > Cambio principal: §75 motor Unity → Godot. Resto de visión, pilares y MVP se mantienen.
 
 ## Cambios v1.0 → v1.1
-- Motor: **Godot 4.x versión .NET** (pesa menos que Unity, open-source, ideal para prototipo cozy). Lenguaje único: **C# 12, .NET 8**. Sin GDScript.
-- `ScriptableObjects` → `Resource` C# (`.tres` en `resources/data/`).
+- Motor: **Godot 4.x versión clásica** 4.7.2 (ligera, open-source, ideal para prototipo cozy). Lenguaje único: **GDScript**. Sin C#.
+- `ScriptableObjects` → `Resource` GDScript (`class_name`, `.tres` en `resources/data/`).
 - `MonoBehaviour/Manager` → `Nodos + Autoloads` (`TimeSystem, WeatherSystem, SaveSystem, InventorySystem, FarmingSystem, AnimalSystem, CraftingSystem, CookingSystem, AudioSystem`).
 - UI: `uGUI` → `Control` nodos Godot. Input: `InputMap`.
 - Render: `URP` → `GL Compatibility` (ligero, PCs modestas) con opción a `Forward+` más adelante.

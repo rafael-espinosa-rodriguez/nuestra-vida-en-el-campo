@@ -1,7 +1,7 @@
 # AGENTS.md — Nuestra Vida en el Campo
 
 > Instrucciones obligatorias para cualquier agente IA o humano que programe en este repo.
-> Stack: **Godot 4.x (.NET / C# únicamente)**. Metodología: **GitHub Spec-Kit (spec-driven)**.
+> Stack: **Godot 4.x clásica (GDScript únicamente)**. Metodología: **GitHub Spec-Kit (spec-driven)**.
 > Repo GitHub: `nuestra-vida-en-el-campo`. MVP: **semana completa jugable en primavera**.
 
 ## 1. Cómo trabajar aquí (spec-driven, siempre)
@@ -14,19 +14,20 @@
 
 ## 2. Stack y comandos
 
-- **Godot 4.x versión .NET** (no la clásica), **.NET 8 SDK**, C# 12. No GDScript. Todo el gameplay en C#.
-- Abrir el proyecto: `godot --path "D:/SALVA NO BORRAR NUESTRA VIDA EN EL CAMPO"` (o doble clic en `project.godot`).
-- Compilar C#: lo hace Godot al abrir/guardar. Desde terminal (con SDK instalado): `dotnet build`.
-- Tests: de momento verificación manual en editor + checklist de cada spec. Cuando haya GUT/DotNet tests, `dotnet test`.
-- Requisitos pendientes en esta máquina: instalar **Godot 4 .NET**, **.NET 8 SDK** y `gh` CLI. Ver `docs/Setup.md`.
+- **Godot 4.x versión clásica** (instalada en `%LOCALAPPDATA%\Programs\Godot`, v4.7.2). **GDScript únicamente**, sin C#.
+- Abrir el proyecto: doble clic en `project.godot` o `Godot_v4.7.2-stable_win64.exe --path "D:/SALVA NO BORRAR NUESTRA VIDA EN EL CAMPO"`.
+- Sin compilación: GDScript se interpreta. Verificación headless: `Godot_v4.7.2-stable_win64_console.exe --headless --path "..." --import`.
+- Tests: de momento verificación manual en editor + checklist de cada spec. Cuando haya tests GUT, se documentan en la spec.
+- Plugin MCP **Godot MCP Toolkit** en `addons/` + servidor `godot` registrado en opencode (`npx -y @npgamedev/godot-mcp-server`). Requiere editor abierto con el plugin activo. Ver `docs/MCP.md`.
+- Requisitos pendientes en esta máquina: `gh` CLI y Git LFS. Ver `docs/Setup.md`.
 
-## 3. Convenciones Godot + C#
+## 3. Convenciones Godot + GDScript
 
-- `scripts/systems/` → Autoloads singletons: `TimeSystem, WeatherSystem, SaveSystem, InventorySystem, FarmingSystem, AnimalSystem, CraftingSystem, CookingSystem, AudioSystem`.
+- `scripts/systems/` → Autoloads singletons: `TimeSystem, WeatherSystem, SaveSystem, InventorySystem, FarmingSystem, AnimalSystem, CraftingSystem, CookingSystem, AudioSystem` (archivos `snake_case.gd`, `class_name` cuando sea dato).
 - `scripts/components/` → componentes reutilizables (`InteractableArea`, `Health`, `Hunger`, `Growable`).
 - `scripts/data/` → clases `Resource`: `AnimalData, CropData, RecipeData, ItemData`. Datos en `resources/data/**` como `.tres`.
 - `scripts/ui/` → solo UI. `scenes/` → escenas por feature. `assets/` → arte low-poly + audio (usar Git LFS).
-- Nombres: clases `PascalCase`, métodos `PascalCase`, campos privados `_camelCase`, señales `PascalCase`, nodos en escenas `PascalCase`.
+- Nombres: clases y `class_name` en `PascalCase`, archivos en `snake_case.gd`, funciones/variables/señales en `snake_case`, constantes en `UPPER_SNAKE`, nodos en escenas `PascalCase`.
 - Interacción genérica obligatoria: todo interactuable implementa `IInteractable` (`GetPrompt()`, `Interact(Player)`). Nada de lógica de input repartida.
 - Un `AnimalSystem`, no `CowSystem/ChickenSystem`. Los animales son **datos diferentes**, no sistemas diferentes (principio §78 GDD).
 - Guardado robusto en `user://savegame.json`: posición, día, estación, clima, inventario, animales, cultivos, edificios, dinero, recuerdos.
@@ -51,6 +52,6 @@ Low-poly estilizado desde el inicio, identidad rural azerbaiyana (madera/piedra/
 ## 7. Qué debe contener cada PR/commit
 
 - Referencia a la spec (`specs/00X-...`).
-- Archivos C# + escenas + recursos `.tres` necesarios, nada más.
+- Archivos GDScript + escenas + recursos `.tres` necesarios, nada más.
 - Cómo se probó en el editor (escena abierta, pasos, captura si hay UI).
 - Sin binarios pesados fuera de LFS. Sin secretos. Sin `Library/`, `.godot/`, `bin/`, `obj/` (ignorados por git).

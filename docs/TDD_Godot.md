@@ -1,8 +1,8 @@
-# TDD — Arquitectura Godot + C# (v1.0)
+# TDD — Arquitectura Godot clásica + GDScript (v1.1)
 
 ## 1. Proyecto
-- Godot 4.x .NET, `project.godot` con `config/features=["C#"]`, renderer `gl_compatibility`.
-- Assembly `NuestraVidaEnElCampo`. Solo C#. Escenas `.tscn`, scripts `.cs`, datos `.tres`.
+- Godot 4.x clásica 4.7.2, renderer `gl_compatibility`. Solo GDScript.
+- Escenas `.tscn`, scripts `.gd` (`snake_case`), datos `Resource` en `.tres`.
 
 ## 2. Autoloads (orden)
 1. `TimeSystem` — hora/día, dormir→Day+1+autosave.
@@ -14,7 +14,7 @@
 7. `AudioSystem` — ambience + música puntual.
 
 ## 3. Interacción
-- `IInteractable` (`GetPrompt()`, `Interact(Player)`). `InteractableArea3D : Area3D` con export `Prompt`.
+- Convención `get_prompt()` / `interact(player)` (duck-typing). `InteractableArea3D : Area3D` con `@export var prompt`.
 - Player `CharacterBody3D`, raycast/Area detecta el interactuable más cercano, tecla `E` (InputMap `interact`).
 
 ## 4. Datos (Resources)
