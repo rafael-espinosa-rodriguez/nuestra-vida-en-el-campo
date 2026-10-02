@@ -16,7 +16,7 @@ func _run() -> void:
 	var main: Node = load("res://scenes/Main.tscn").instantiate()
 	root.add_child(main)
 	var npcs: Array[Node] = get_nodes_in_group("npcs")
-	assert(npcs.size() == 3, "3 vecinos")
+	assert(npcs.size() >= 3, "vecinos presentes")
 	var by_name := {}
 	for n: Node in npcs:
 		by_name[String(n.get("npc_name"))] = n

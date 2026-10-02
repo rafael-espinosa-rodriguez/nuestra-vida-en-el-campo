@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="NPCData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/npc_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Sari"
+age = 38
+profession = "veterinaria"
+personality = "seria"
+favorite_gift = "leche"
+tint = Color(0.35, 0.6, 0.6, 1)
+dialogues = {"manana": PackedStringArray("¿Tus animales comieron bien?", "La prevencion es la mejor medicina."), "dia": PackedStringArray("Si alguno enferma, traemelo: 5 monedas.", "Un animal contento produce mas."), "tarde": PackedStringArray("Reviso el valle al atardecer.", "¿Todo bien en tu granja?"), "noche": PackedStringArray("Ya guardo el maletin.", "Descansa."), "lluvia": PackedStringArray("Con humedad vigila los cascos.", "Dia de establo.")}

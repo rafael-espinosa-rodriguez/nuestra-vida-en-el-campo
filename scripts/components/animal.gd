@@ -34,10 +34,88 @@ func _ready() -> void:
 		mat.albedo_color = data.tint
 		body.set_surface_override_material(0, mat)
 		body.scale = data.body_size / Vector3(0.6, 0.6, 0.8)
+		_build_model()
 	name_label.text = animal_name + (" (bebé)" if is_baby else "")
 	if is_baby:
 		_apply_baby_scale()
 	_target = global_position
+
+
+func _part(size: Vector3, pos: Vector3, color: Color) -> MeshInstance3D:
+	var mesh := BoxMesh.new()
+	mesh.size = size
+	mesh.material = null
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = color
+	var mi := MeshInstance3D.new()
+	mi.mesh = mesh
+	mi.set_surface_override_material(0, mat)
+	mi.position = pos
+	add_child(mi)
+	return mi
+
+
+func _build_model() -> void:
+	# Modelo low-poly por especie con primitivas (spec 020): cabeza, patas, orejas, cola.
+	var tint: Color = data.tint
+	var dark: Color = tint.darkened(0.25)
+	var size: Vector3 = data.body_size
+	var species: String = data.species
+	var legs := 4
+	var leg_len := 0.55
+	var head_size := Vector3(0.35, 0.35, 0.35)
+	match species:
+		"gallina":
+			legs = 2
+			leg_len = 0.35
+			head_size = Vector3(0.28, 0.28, 0.28)
+		"gato":
+			leg_len = 0.35
+			head_size = Vector3(0.3, 0.3, 0.3)
+		"vaca":
+			leg_len = 0.7
+			head_size = Vector3(0.45, 0.45, 0.5)
+	var body_bottom: float = leg_len - 0.6
+	var body_center: float = body_bottom + size.y * 0.5
+	body.position.y = body_center
+	var head_y: float = body_center + size.y * 0.5 + head_size.y * 0.5 - 0.05
+	var head_z: float = -(size.z * 0.5 + head_size.z * 0.5 - 0.05)
+	_part(head_size, Vector3(0, head_y, head_z), tint.darkened(0.08))
+	var lx: float = maxf(0.1, size.x * 0.5 - 0.08)
+	var lz: float = maxf(0.1, size.z * 0.5 - 0.1)
+	for i: int in legs:
+		var sx := -lx if i % 2 == 0 else lx
+		var sz := -lz if i < 2 else lz
+		if legs == 2:
+			sz = 0.0
+		var leg := MeshInstance3D.new()
+		var lm := BoxMesh.new()
+		lm.size = Vector3(0.12, leg_len, 0.12)
+		leg.mesh = lm
+		var lmat := StandardMaterial3D.new()
+		lmat.albedo_color = dark
+		leg.set_surface_override_material(0, lmat)
+		leg.position = Vector3(sx, body_bottom - leg_len * 0.5, sz)
+		add_child(leg)
+	_part(Vector3(0.15, 0.15, 0.35), Vector3(0, body_center + 0.1, size.z * 0.5 + 0.1), dark)
+	match species:
+		"gallina":
+			_part(Vector3(0.12, 0.12, 0.15), Vector3(0, head_y, head_z - head_size.z * 0.5 - 0.05), Color(1.0, 0.6, 0.2))
+			_part(Vector3(0.1, 0.18, 0.12), Vector3(0, head_y + head_size.y * 0.5 + 0.08, head_z), Color(0.9, 0.2, 0.2))
+		"vaca":
+			_part(Vector3(0.3, 0.2, 0.15), Vector3(0, head_y - 0.1, head_z - head_size.z * 0.5), Color(0.95, 0.7, 0.7))
+			_part(Vector3(0.12, 0.25, 0.1), Vector3(-0.2, head_y + head_size.y * 0.5, head_z), dark)
+			_part(Vector3(0.12, 0.25, 0.1), Vector3(0.2, head_y + head_size.y * 0.5, head_z), dark)
+		"perro", "gato":
+			_part(Vector3(0.12, 0.2, 0.1), Vector3(-0.12, head_y + head_size.y * 0.5 + 0.05, head_z), dark)
+			_part(Vector3(0.12, 0.2, 0.1), Vector3(0.12, head_y + head_size.y * 0.5 + 0.05, head_z), dark)
+			_part(Vector3(0.1, 0.1, 0.1), Vector3(0, head_y, head_z - head_size.z * 0.5 - 0.02), Color(0.15, 0.12, 0.12))
+		"oveja", "cabra":
+			_part(Vector3(0.12, 0.2, 0.1), Vector3(-0.15, head_y + head_size.y * 0.5, head_z), dark)
+			_part(Vector3(0.12, 0.2, 0.1), Vector3(0.15, head_y + head_size.y * 0.5, head_z), dark)
+			if species == "cabra":
+				_part(Vector3(0.08, 0.25, 0.08), Vector3(-0.08, head_y + head_size.y * 0.5 + 0.12, head_z), Color(0.85, 0.8, 0.7))
+				_part(Vector3(0.08, 0.25, 0.08), Vector3(0.08, head_y + head_size.y * 0.5 + 0.12, head_z), Color(0.85, 0.8, 0.7))
 
 
 func _apply_baby_scale() -> void:

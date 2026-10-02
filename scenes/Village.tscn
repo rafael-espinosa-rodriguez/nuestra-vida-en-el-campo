@@ -1,10 +1,11 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=27 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Prop.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/NPC.tscn" id="2"]
 [ext_resource type="Resource" path="res://resources/data/npcs/mara.tres" id="3"]
 [ext_resource type="Resource" path="res://resources/data/npcs/bram.tres" id="4"]
 [ext_resource type="Resource" path="res://resources/data/npcs/nara.tres" id="5"]
+[ext_resource type="Resource" path="res://resources/data/npcs/sari.tres" id="6"]
 
 [sub_resource type="StandardMaterial3D" id="mat_wood"]
 albedo_color = Color(0.5, 0.35, 0.2, 1)
@@ -298,3 +299,11 @@ npc_name = "Nara"
 home_pos = Vector3(8, 0.1, -4)
 work_pos = Vector3(0, 0.1, 4)
 plaza_pos = Vector3(-4, 0.1, 4)
+
+[node name="Sari" parent="." instance=ExtResource("2")]
+position = Vector3(-8, 0.1, -4)
+data = ExtResource("6")
+npc_name = "Sari"
+home_pos = Vector3(-8, 0.1, -4)
+work_pos = Vector3(2, 0.1, 6)
+plaza_pos = Vector3(0, 0.1, 4)

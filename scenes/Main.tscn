@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=39 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" path="res://scenes/Village.tscn" id="9"]
 [ext_resource type="Resource" path="res://resources/data/animals/oveja.tres" id="10"]
 [ext_resource type="Resource" path="res://resources/data/animals/cabra.tres" id="11"]
+[ext_resource type="Resource" path="res://resources/data/animals/gato.tres" id="12"]
 
 [sub_resource type="StandardMaterial3D" id="mat_snow"]
 albedo_color = Color(1, 1, 1, 1)
@@ -303,6 +304,12 @@ position = Vector3(-14, 0.6, 3)
 data = ExtResource("11")
 animal_name = "Pepa"
 personality = "juguetón"
+
+[node name="Mishi" parent="." instance=ExtResource("4")]
+position = Vector3(0, 0.6, -4)
+data = ExtResource("12")
+animal_name = "Mishi"
+personality = "independiente"
 
 [node name="Telar" parent="." instance=ExtResource("7")]
 position = Vector3(1, 0.5, -8)

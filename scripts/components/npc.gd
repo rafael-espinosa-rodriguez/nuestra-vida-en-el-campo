@@ -81,11 +81,36 @@ func update_schedule() -> void:
 
 
 func get_prompt() -> String:
+	if data != null and data.profession == "veterinaria":
+		return npc_name + ": Curar rebaño (5)"
 	return npc_name + ": Hablar"
 
 
 func interact(_player: Node) -> void:
-	talk()
+	if data != null and data.profession == "veterinaria":
+		_vet_cure()
+	else:
+		talk()
+
+
+func _vet_cure() -> void:
+	var herd: Node = get_node_or_null("/root/AnimalSystem")
+	if herd == null:
+		return
+	var n: int = int(herd.call("cure_all"))
+	if n > 0:
+		_say("Curados: %d. ¡A cuidarlos!" % n)
+	elif n == 0:
+		_say("Todos sanos. Sigue así.")
+	else:
+		_say("Necesitas 5 monedas.")
+
+
+func _say(text: String) -> void:
+	last_line = text
+	say_label.text = text
+	say_label.visible = true
+	_say_t = 5.0
 
 
 func talk() -> String:

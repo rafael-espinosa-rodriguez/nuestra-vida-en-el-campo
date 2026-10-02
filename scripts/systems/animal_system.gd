@@ -45,6 +45,31 @@ func collect(animal_name: String) -> String:
 	return String(a.call("collect"))
 
 
+func sick_count() -> int:
+	var n := 0
+	for a: Node in get_tree().get_nodes_in_group("animals"):
+		if bool(a.get("sick")):
+			n += 1
+	return n
+
+
+func cure_all() -> int:
+	# La veterinaria cura todo el rebaño por 5 monedas (GDD §54).
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	if inv == null:
+		return 0
+	var n := sick_count()
+	if n == 0:
+		return 0
+	if int(inv.get("money")) < 5:
+		return -1
+	inv.set("money", int(inv.get("money")) - 5)
+	for a: Node in get_tree().get_nodes_in_group("animals"):
+		if bool(a.get("sick")) and a.has_method("cure"):
+			a.call("cure")
+	return n
+
+
 func breed(species_id: String) -> String:
 	# Dos adultos felices de la misma especie + 2 trigo -> cria (GDD §21).
 	var adults := []

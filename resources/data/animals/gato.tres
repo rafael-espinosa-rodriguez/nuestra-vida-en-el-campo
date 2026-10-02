@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnimalData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/animal_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+species = "gato"
+display_name = "Gato"
+produce_id = ""
+produce_per_day = 0
+food_id = "pez"
+follows_player = false
+tint = Color(0.5, 0.5, 0.55, 1)
+body_size = Vector3(0.45, 0.4, 0.8)
+walk_speed = 1.6
