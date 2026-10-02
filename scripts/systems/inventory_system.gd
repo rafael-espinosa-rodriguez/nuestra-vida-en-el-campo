@@ -17,6 +17,7 @@ func _ready() -> void:
 		add_item("regadera")
 		add_item("hacha")
 		add_item("cana")
+		add_item("pico")
 		add_item("semilla_trigo", 3)
 		add_item("semilla_zanahoria", 2)
 		add_item("semilla_tomate", 2)

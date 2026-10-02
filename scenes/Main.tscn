@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=44 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -13,6 +13,17 @@
 [ext_resource type="Resource" path="res://resources/data/animals/cabra.tres" id="11"]
 [ext_resource type="Resource" path="res://resources/data/animals/gato.tres" id="12"]
 [ext_resource type="Resource" path="res://resources/data/animals/caballo.tres" id="13"]
+[ext_resource type="PackedScene" path="res://scenes/Manzano.tscn" id="14"]
+
+[sub_resource type="StandardMaterial3D" id="mat_rock"]
+albedo_color = Color(0.55, 0.55, 0.58, 1)
+
+[sub_resource type="BoxMesh" id="mesh_rock"]
+material = SubResource("mat_rock")
+size = Vector3(6.0, 3.0, 5.0)
+
+[sub_resource type="BoxShape3D" id="shape_rock"]
+size = Vector3(6.0, 3.0, 5.0)
 
 [sub_resource type="StandardMaterial3D" id="mat_snow"]
 albedo_color = Color(1, 1, 1, 1)
@@ -317,6 +328,56 @@ position = Vector3(-18, 0.6, 12)
 data = ExtResource("13")
 animal_name = "Bruno"
 personality = "tranquilo"
+
+[node name="Manzano1" parent="." instance=ExtResource("14")]
+position = Vector3(12, 0, -10)
+
+[node name="Manzano2" parent="." instance=ExtResource("14")]
+position = Vector3(16, 0, -8)
+
+[node name="Roca1" type="StaticBody3D" parent="."]
+position = Vector3(-25, 1.5, -80)
+
+[node name="RocaMesh" type="MeshInstance3D" parent="Roca1"]
+mesh = SubResource("mesh_rock")
+
+[node name="RocaCol" type="CollisionShape3D" parent="Roca1"]
+shape = SubResource("shape_rock")
+
+[node name="Roca2" type="StaticBody3D" parent="."]
+position = Vector3(-15, 2.0, -88)
+scale = Vector3(1.3, 1.3, 1.2)
+
+[node name="RocaMesh" type="MeshInstance3D" parent="Roca2"]
+mesh = SubResource("mesh_rock")
+
+[node name="RocaCol" type="CollisionShape3D" parent="Roca2"]
+shape = SubResource("shape_rock")
+
+[node name="Roca3" type="StaticBody3D" parent="."]
+position = Vector3(-33, 1.0, -72)
+scale = Vector3(0.8, 0.7, 0.8)
+
+[node name="RocaMesh" type="MeshInstance3D" parent="Roca3"]
+mesh = SubResource("mesh_rock")
+
+[node name="RocaCol" type="CollisionShape3D" parent="Roca3"]
+shape = SubResource("shape_rock")
+
+[node name="Piedra1" parent="." instance=ExtResource("7")]
+position = Vector3(-22, 0.5, -78)
+prop_id = "forage"
+forage_id = "piedra"
+
+[node name="Piedra2" parent="." instance=ExtResource("7")]
+position = Vector3(-28, 0.5, -82)
+prop_id = "forage"
+forage_id = "piedra"
+
+[node name="Mineral1" parent="." instance=ExtResource("7")]
+position = Vector3(-18, 0.5, -86)
+prop_id = "forage"
+forage_id = "mineral"
 
 [node name="Telar" parent="." instance=ExtResource("7")]
 position = Vector3(1, 0.5, -8)

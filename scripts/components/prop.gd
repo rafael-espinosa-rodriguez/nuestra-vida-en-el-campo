@@ -31,7 +31,10 @@ var depleted: bool = false
 
 func _ready() -> void:
 	var mat := StandardMaterial3D.new()
-	mat.albedo_color = COLORS.get(prop_id, Color(0.8, 0.8, 0.8))
+	var col: Color = COLORS.get(prop_id, Color(0.8, 0.8, 0.8))
+	if prop_id == "forage" and forage_id in ["piedra", "mineral"]:
+		col = Color(0.5, 0.5, 0.52)
+	mat.albedo_color = col
 	mesh.set_surface_override_material(0, mat)
 	glow.visible = false
 	var time_sys: Node = get_node_or_null("/root/TimeSystem")
@@ -79,7 +82,9 @@ func get_prompt() -> String:
 		"fish":
 			return "Pescar (caña)"
 		"forage":
-			return "Recoger " + forage_id if not depleted else "Ya recogido (vuelve mañana)"
+			if depleted:
+				return "Agotado (vuelve mañana)"
+			return "Picar " + forage_id + " (pico)" if forage_id in ["piedra", "mineral"] else "Recoger " + forage_id
 		"telar":
 			return "Tejer tela (2 lana)"
 		"quesera":
@@ -132,10 +137,14 @@ func interact(player: Node) -> void:
 			if pl != null and pl.equipped_tool == "cana" and pl.spend_energy(5.0) and inv != null:
 				inv.call("add_item", "pez")
 		"forage":
-			if not depleted and inv != null:
-				depleted = true
-				mesh.visible = false
-				inv.call("add_item", forage_id)
+			if depleted or inv == null:
+				return
+			if forage_id in ["piedra", "mineral"]:
+				if pl == null or pl.equipped_tool != "pico" or not pl.spend_energy(8.0):
+					return
+			depleted = true
+			mesh.visible = false
+			inv.call("add_item", forage_id)
 		"telar":
 			if pl != null and inv != null and int(inv.call("get_count", "lana")) >= 2 and pl.spend_energy(4.0):
 				inv.call("remove_item", "lana", 2)
@@ -145,7 +154,7 @@ func interact(player: Node) -> void:
 				_cook(pl, inv, ["queso", "yogur"])
 		"conservera":
 			if pl != null:
-				_cook(pl, inv, ["encurtido"])
+				_cook(pl, inv, ["encurtido", "mermelada"])
 		"corral":
 			var herd: Node = get_node_or_null("/root/AnimalSystem")
 			if herd != null:

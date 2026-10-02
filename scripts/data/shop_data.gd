@@ -6,7 +6,7 @@ extends Resource
 @export var shop_id: String = "mercado_primavera"
 @export var seller: String = "Mara"
 @export var season: String = "primavera"
-@export var sell_prices: Dictionary = {"huevo": 3, "leche": 5, "trigo": 2, "zanahoria": 3, "tomate": 4, "madera": 2, "harina": 3, "pan": 8, "sopa": 12, "tortilla": 7, "pez": 6, "seta": 4, "lana": 6, "tela": 15, "maiz": 3, "calabaza": 6, "queso": 10, "yogur": 6, "encurtido": 9}
+@export var sell_prices: Dictionary = {"huevo": 3, "leche": 5, "trigo": 2, "zanahoria": 3, "tomate": 4, "madera": 2, "harina": 3, "pan": 8, "sopa": 12, "tortilla": 7, "pez": 6, "seta": 4, "lana": 6, "tela": 15, "maiz": 3, "calabaza": 6, "queso": 10, "yogur": 6, "encurtido": 9, "manzana": 4, "mermelada": 18, "piedra": 1, "mineral": 10}
 @export var seed_pack: PackedStringArray = ["semilla_trigo", "semilla_zanahoria", "semilla_tomate"]
 @export var seed_pack_price: int = 5
 @export var reserve: int = 2
