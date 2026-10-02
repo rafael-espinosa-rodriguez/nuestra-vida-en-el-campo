@@ -222,6 +222,20 @@ info_text = "Pueblo -> sigue el camino"
 [node name="Village" parent="." instance=ExtResource("9")]
 position = Vector3(10, 0, 105)
 
+[node name="FishingSpot" parent="." instance=ExtResource("7")]
+position = Vector3(-78, 0.5, 0)
+prop_id = "fish"
+
+[node name="Setas1" parent="." instance=ExtResource("7")]
+position = Vector3(65, 0.5, -20)
+prop_id = "forage"
+forage_id = "seta"
+
+[node name="Setas2" parent="." instance=ExtResource("7")]
+position = Vector3(75, 0.5, 20)
+prop_id = "forage"
+forage_id = "seta"
+
 [node name="Tree1" parent="." instance=ExtResource("8")]
 position = Vector3(70, 0, -30)
 

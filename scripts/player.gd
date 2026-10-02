@@ -7,7 +7,7 @@ extends CharacterBody3D
 @export var sprint_multiplier: float = 1.6
 @export var max_energy: float = 100.0
 
-const TOOLS: Array[String] = ["azada", "regadera", "hacha"]
+const TOOLS: Array[String] = ["azada", "regadera", "hacha", "cana"]
 
 @onready var spring_arm: SpringArm3D = $SpringArm3D
 @onready var detector: Area3D = $InteractDetector
@@ -65,6 +65,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				_equip_from_inventory(inv, 1)
 			KEY_3:
 				_equip_from_inventory(inv, 2)
+			KEY_4:
+				_equip_from_inventory(inv, 3)
 
 
 func _equip_from_inventory(inv: Node, index: int) -> void:
@@ -101,7 +103,7 @@ func restore_energy(amount: float) -> void:
 
 
 const FOOD_ENERGY := {"pan": 30.0, "sopa": 45.0, "tortilla": 25.0, "huevo": 10.0,
-	"leche": 15.0, "zanahoria": 8.0, "tomate": 8.0, "trigo": 2.0}
+	"leche": 15.0, "zanahoria": 8.0, "tomate": 8.0, "trigo": 2.0, "pez": 12.0, "seta": 6.0}
 
 
 func eat(item_id: String) -> bool:

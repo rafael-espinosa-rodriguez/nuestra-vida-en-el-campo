@@ -5,13 +5,16 @@ extends InteractableArea3D
 
 @export var prop_id: String = "bed"
 @export var info_text: String = ""
+@export var forage_id: String = "seta"
 
 const RECIPES := ["pan", "sopa", "tortilla"]
 const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15),
 	"oven": Color(0.7, 0.7, 0.72), "mill": Color(0.75, 0.6, 0.4), "well": Color(0.55, 0.55, 0.6),
-	"sign": Color(0.65, 0.5, 0.3), "market": Color(0.8, 0.4, 0.25)}
+	"sign": Color(0.65, 0.5, 0.3), "market": Color(0.8, 0.4, 0.25),
+	"fish": Color(0.35, 0.6, 0.85), "forage": Color(0.4, 0.6, 0.3)}
 
 var lit: bool = false
+var depleted: bool = false
 
 @onready var mesh: MeshInstance3D = $Mesh
 @onready var glow: OmniLight3D = $Glow
@@ -22,6 +25,15 @@ func _ready() -> void:
 	mat.albedo_color = COLORS.get(prop_id, Color(0.8, 0.8, 0.8))
 	mesh.set_surface_override_material(0, mat)
 	glow.visible = false
+	var time_sys: Node = get_node_or_null("/root/TimeSystem")
+	if time_sys != null and prop_id == "forage":
+		time_sys.connect("day_changed", _on_new_day)
+
+
+func _on_new_day(_day: int) -> void:
+	if prop_id == "forage":
+		depleted = false
+		mesh.visible = true
 
 
 func get_prompt() -> String:
@@ -44,6 +56,10 @@ func get_prompt() -> String:
 				if bool(market.call("can_buy_pack")):
 					return "Comprar pack semillas (5)"
 			return "Mercado (nada que comerciar)"
+		"fish":
+			return "Pescar (caña)"
+		"forage":
+			return "Recoger " + forage_id if not depleted else "Ya recogido (vuelve mañana)"
 		"sign":
 			return info_text if info_text != "" else "Cartel"
 	return prompt
@@ -79,6 +95,14 @@ func interact(player: Node) -> void:
 					market.call("sell_surplus")
 				else:
 					market.call("buy_seed_pack")
+		"fish":
+			if pl != null and pl.equipped_tool == "cana" and pl.spend_energy(5.0) and inv != null:
+				inv.call("add_item", "pez")
+		"forage":
+			if not depleted and inv != null:
+				depleted = true
+				mesh.visible = false
+				inv.call("add_item", forage_id)
 
 
 func _cook(pl: Player, inv: Node) -> void:
