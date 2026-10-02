@@ -41,6 +41,47 @@ func play_music(moment_id: String) -> bool:
 	return play_ambience("musica_" + moment_id)
 
 
+func make_tone(freq_hz: float, duration_s: float = 0.15) -> AudioStreamWAV:
+	# Tono procedural (spec 026): placeholder digno hasta tener arte sonoro real.
+	var rate := 22050
+	var frames := int(rate * duration_s)
+	var data := PackedByteArray()
+	data.resize(frames * 2)
+	for i: int in frames:
+		var t := float(i) / float(rate)
+		var env: float = 1.0 - float(i) / float(frames)
+		var s: float = sin(TAU * freq_hz * t) * env * 0.5
+		var v := int(clampf(s, -1.0, 1.0) * 32767.0)
+		data.encode_s16(i * 2, v)
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = rate
+	stream.data = data
+	return stream
+
+
+func sfx(sfx_id: String) -> void:
+	var freq := 440.0
+	match sfx_id:
+		"pickup":
+			freq = 660.0
+		"cook":
+			freq = 523.0
+		"coin":
+			freq = 880.0
+		"sleep":
+			freq = 392.0
+		"gift":
+			freq = 784.0
+		"error":
+			freq = 160.0
+	var p := AudioStreamPlayer.new()
+	p.stream = make_tone(freq)
+	p.finished.connect(p.queue_free)
+	add_child(p)
+	p.play()
+
+
 func stop_all() -> void:
 	_stop_all()
 	_current = ""

@@ -22,6 +22,7 @@ var current_prompt: String = ""
 var energy: float = 100.0
 var equipped_tool: String = ""
 var riding: Animal = null
+var _bob_t := 0.0
 
 
 func _ready() -> void:
@@ -68,6 +69,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if dir.length() > 0.1:
 		rotation.y = lerp_angle(rotation.y, atan2(-dir.x, -dir.z), 10.0 * delta)
+		_bob_t += delta * 10.0
+		body_mesh.position.y = sin(_bob_t) * 0.05
+	else:
+		body_mesh.position.y = lerpf(body_mesh.position.y, 0.0, 10.0 * delta)
 	_update_current()
 	if Input.is_action_just_pressed("interact"):
 		if equipped_tool == "cerca" and current == null:

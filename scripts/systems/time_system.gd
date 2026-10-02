@@ -64,6 +64,9 @@ func sleep_until_morning() -> void:
 	_change_day()
 	time_changed.emit(hour)
 	_apply_to_scene()
+	var audio: Node = get_node_or_null("/root/AudioSystem")
+	if audio != null and audio.has_method("sfx"):
+		audio.sfx("sleep")
 	var save_sys: Node = get_node_or_null("/root/SaveSystem")
 	if save_sys != null and save_sys.has_method("save_game"):
 		save_sys.save_game()

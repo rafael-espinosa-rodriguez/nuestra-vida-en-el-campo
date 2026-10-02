@@ -119,6 +119,9 @@ func deserialize(d: Dictionary) -> void:
 func _add_points(npc_name: String, n: int) -> void:
 	points[npc_name] = get_points(npc_name) + n
 	points_changed.emit(npc_name, int(points[npc_name]))
+	var audio: Node = get_node_or_null("/root/AudioSystem")
+	if audio != null and audio.has_method("sfx"):
+		audio.sfx("gift")
 
 
 func is_festival() -> bool:

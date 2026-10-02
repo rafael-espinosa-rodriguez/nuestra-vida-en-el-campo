@@ -35,6 +35,7 @@ func sell_surplus() -> int:
 			earned += extra * int((data.sell_prices as Dictionary)[item_id])
 	if earned > 0:
 		inv.set("money", int(inv.get("money")) + earned)
+		_sfx("coin")
 	return earned
 
 
@@ -57,6 +58,7 @@ func buy_seed_pack() -> bool:
 	inv.set("money", _money() - price)
 	for seed_id: String in data.seed_pack:
 		inv.call("add_item", seed_id)
+	_sfx("coin")
 	return true
 
 
@@ -78,3 +80,9 @@ func _is_festival() -> bool:
 func _money() -> int:
 	var inv: Node = get_node_or_null("/root/InventorySystem")
 	return int(inv.get("money")) if inv != null else 0
+
+
+func _sfx(sfx_id: String) -> void:
+	var audio: Node = get_node_or_null("/root/AudioSystem")
+	if audio != null and audio.has_method("sfx"):
+		audio.sfx(sfx_id)

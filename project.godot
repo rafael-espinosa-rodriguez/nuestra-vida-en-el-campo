@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Nuestra Vida en el Campo"
 config/description="Simulador de vida rural cozy en el campo de Azerbaiyan. MVP: semana completa en primavera."
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/Title.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

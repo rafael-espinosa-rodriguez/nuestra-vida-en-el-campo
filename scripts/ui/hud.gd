@@ -9,12 +9,38 @@ extends CanvasLayer
 @onready var money_label: Label = $TopLeft/MoneyLabel
 @onready var prompt_label: Label = $Prompt/PromptLabel
 @onready var message_label: Label = $Message
+@onready var pause_panel: PanelContainer = $PausePanel
 
 var _message_t := 0.0
 
 
 func _ready() -> void:
 	add_to_group("hud")
+	$PausePanel/PauseMenu/ResumeButton.pressed.connect(toggle_pause)
+	$PausePanel/PauseMenu/SaveButton.pressed.connect(_on_save_pressed)
+	$PausePanel/PauseMenu/TitleButton.pressed.connect(_on_title_pressed)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		toggle_pause()
+
+
+func toggle_pause() -> void:
+	get_tree().paused = not get_tree().paused
+	pause_panel.visible = get_tree().paused
+
+
+func _on_save_pressed() -> void:
+	var save_sys: Node = get_node_or_null("/root/SaveSystem")
+	if save_sys != null:
+		save_sys.save_game()
+	show_message("Partida guardada.")
+
+
+func _on_title_pressed() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/Title.tscn")
 
 
 func show_message(text: String, duration: float = 4.0) -> void:

@@ -228,7 +228,14 @@ func _cook(pl: Player, inv: Node, rids: Array = RECIPES) -> void:
 			for ing: String in recipe.ingredients:
 				inv.call("remove_item", ing)
 			inv.call("add_item", recipe.recipe_id)
+			_sfx("cook")
 			return
+
+
+func _sfx(sfx_id: String) -> void:
+	var audio: Node = get_node_or_null("/root/AudioSystem")
+	if audio != null and audio.has_method("sfx"):
+		audio.sfx(sfx_id)
 
 
 func _can_cook(recipe: RecipeData, inv: Node) -> bool:
