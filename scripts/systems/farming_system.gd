@@ -11,7 +11,7 @@ func _ready() -> void:
 
 func on_new_day(_day: int) -> void:
 	var weather: Node = get_node_or_null("/root/WeatherSystem")
-	if weather != null and int(weather.get("current")) == 2:
+	if weather != null and int(weather.get("current")) in [2, 3]:
 		water_all()
 	for plot: Node in get_tree().get_nodes_in_group("plots"):
 		if plot.has_method("new_day"):

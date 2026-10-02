@@ -4,13 +4,14 @@ extends Node
 
 signal weather_changed(new_weather: int)
 
-enum Weather { SOLEADO, NUBLADO, LLUVIA }
+enum Weather { SOLEADO, NUBLADO, LLUVIA, NIEVE }
 
-# Estacion (0 prim, 1 ver, 2 oto) -> {dia_en_temporada -> clima}.
+# Estacion (0 prim, 1 ver, 2 oto, 3 inv) -> {dia_en_temporada -> clima}.
 const SEASON_WEEKS := {
 	0: {1: 0, 2: 0, 3: 1, 4: 0, 5: 1, 6: 2, 7: 0},
 	1: {1: 0, 2: 0, 3: 0, 4: 1, 5: 0, 6: 2, 7: 0},
 	2: {1: 1, 2: 2, 3: 0, 4: 1, 5: 2, 6: 2, 7: 1},
+	3: {1: 1, 2: 3, 3: 1, 4: 3, 5: 1, 6: 3, 7: 1},
 }
 
 var current: int = Weather.SOLEADO

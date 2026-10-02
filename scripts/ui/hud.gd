@@ -18,7 +18,7 @@ func _process(_delta: float) -> void:
 		time_label.text = "Dia %d  %02d:%02d  ·  %s" % [int(time_sys.get("current_day")), int(h), int((h - floor(h)) * 60.0), season.capitalize()]
 	var weather: Node = get_node_or_null("/root/WeatherSystem")
 	if weather != null:
-		weather_label.text = ["☀ Soleado", "☁ Nublado", "🌧 Lluvia"][clampi(int(weather.get("current")), 0, 2)]
+		weather_label.text = ["☀ Soleado", "☁ Nublado", "🌧 Lluvia", "❄ Nieve"][clampi(int(weather.get("current")), 0, 3)]
 	var players: Array[Node] = get_tree().get_nodes_in_group("player")
 	if not players.is_empty():
 		var p: Node = players[0]

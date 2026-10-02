@@ -85,6 +85,8 @@ func _weather_factor() -> float:
 			return 0.7
 		2:
 			return 0.45
+		3:
+			return 0.5
 	return 1.0
 
 
@@ -112,3 +114,6 @@ func _apply_to_scene() -> void:
 	for g: Node in get_tree().get_nodes_in_group("ground"):
 		if g is MeshInstance3D and season_index() < _ground_mats.size():
 			(g as MeshInstance3D).set_surface_override_material(0, _ground_mats[season_index()])
+	for s: Node in get_tree().get_nodes_in_group("snow"):
+		if s is GPUParticles3D or s is CPUParticles3D:
+			(s as Node3D).visible = season_index() == 3

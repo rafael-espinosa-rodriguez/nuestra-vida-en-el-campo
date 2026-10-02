@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=32 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -11,6 +11,14 @@
 [ext_resource type="PackedScene" path="res://scenes/Village.tscn" id="9"]
 [ext_resource type="Resource" path="res://resources/data/animals/oveja.tres" id="10"]
 [ext_resource type="Resource" path="res://resources/data/animals/cabra.tres" id="11"]
+
+[sub_resource type="StandardMaterial3D" id="mat_snow"]
+albedo_color = Color(1, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="mesh_flake"]
+material = SubResource("mat_snow")
+radius = 0.06
+height = 0.12
 
 [sub_resource type="StandardMaterial3D" id="mat_water"]
 albedo_color = Color(0.3, 0.55, 0.85, 1)
@@ -259,6 +267,26 @@ personality = "juguetón"
 [node name="Telar" parent="." instance=ExtResource("7")]
 position = Vector3(1, 0.5, -8)
 prop_id = "telar"
+
+[node name="Snow" type="CPUParticles3D" parent="." groups=["snow"]]
+visible = false
+amount = 500
+lifetime = 5.0
+emitting = true
+emission_shape = 3
+emission_box_extents = Vector3(100, 5, 100)
+direction = Vector3(0, -1, 0)
+spread = 15.0
+gravity = Vector3(0, -2, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+color = Color(1, 1, 1, 1)
+draw_pass_1 = SubResource("mesh_flake")
+
+[node name="WinterSign" parent="." instance=ExtResource("7")]
+position = Vector3(0, 0.5, -2)
+prop_id = "sign"
+info_text = "Consejo: en otoño almacena comida y leña. El invierno congela el huerto."
 
 [node name="Tree1" parent="." instance=ExtResource("8")]
 position = Vector3(70, 0, -30)

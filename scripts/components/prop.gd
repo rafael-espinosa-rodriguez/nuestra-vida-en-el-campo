@@ -37,6 +37,15 @@ func _on_new_day(_day: int) -> void:
 		mesh.visible = true
 
 
+func _process(delta: float) -> void:
+	# Aura de calor: junto a la chimenea encendida se recupera energia (GDD §13).
+	if prop_id != "fireplace" or not lit:
+		return
+	for p: Node in get_tree().get_nodes_in_group("player"):
+		if p is Node3D and global_position.distance_to((p as Node3D).global_position) < 4.0 and p.has_method("restore_energy"):
+			p.restore_energy(2.0 * delta)
+
+
 func get_prompt() -> String:
 	match prop_id:
 		"bed":

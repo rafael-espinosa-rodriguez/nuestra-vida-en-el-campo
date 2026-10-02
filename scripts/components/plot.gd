@@ -128,12 +128,22 @@ func water() -> void:
 func new_day() -> void:
 	if state != State.PLANTED:
 		return
+	if _is_winter():
+		# El huerto se congela: no crece, pero no muere (diseño acogedor).
+		watered = false
+		_refresh()
+		return
 	if watered:
 		growth += 1
 		if growth >= int(GROW_DAYS.get(crop_id, 99)):
 			state = State.READY
 	watered = false
 	_refresh()
+
+
+func _is_winter() -> bool:
+	var time_sys: Node = get_node_or_null("/root/TimeSystem")
+	return time_sys != null and time_sys.has_method("season_index") and int(time_sys.call("season_index")) == 3
 
 
 func harvest() -> String:
