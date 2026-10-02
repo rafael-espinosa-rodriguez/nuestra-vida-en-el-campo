@@ -20,6 +20,11 @@ AnimalSystem="*res://scripts/systems/animal_system.gd"
 FarmingSystem="*res://scripts/systems/farming_system.gd"
 WeatherSystem="*res://scripts/systems/weather_system.gd"
 AudioSystem="*res://scripts/systems/audio_system.gd"
+MCPRuntimeServer="*res://addons/godot_mcp_toolkit/runtime/mcp_runtime_server.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg")
 
 [display]
 
