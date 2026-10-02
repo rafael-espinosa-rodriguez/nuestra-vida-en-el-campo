@@ -308,6 +308,10 @@ personality = "juguetón"
 position = Vector3(1, 0.5, -8)
 prop_id = "telar"
 
+[node name="Corral" parent="." instance=ExtResource("7")]
+position = Vector3(-10, 0.5, 8)
+prop_id = "corral"
+
 [node name="Snow" type="CPUParticles3D" parent="." groups=["snow"]]
 visible = false
 amount = 500

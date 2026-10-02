@@ -13,6 +13,12 @@ var hydration: float = 80.0
 var happiness: float = 70.0
 var affection: float = 0.0
 var pending: int = 0
+var is_baby: bool = false
+var age_days: int = 0
+var sick: bool = false
+
+const GROW_DAYS := 3
+const MAX_HERD := 12
 
 var _target := Vector3.ZERO
 var _idle_t := 0.0
@@ -28,8 +34,15 @@ func _ready() -> void:
 		mat.albedo_color = data.tint
 		body.set_surface_override_material(0, mat)
 		body.scale = data.body_size / Vector3(0.6, 0.6, 0.8)
-	name_label.text = animal_name
+	name_label.text = animal_name + (" (bebé)" if is_baby else "")
+	if is_baby:
+		_apply_baby_scale()
 	_target = global_position
+
+
+func _apply_baby_scale() -> void:
+	var f: float = 0.55 + 0.45 * clampf(float(age_days) / float(GROW_DAYS), 0.0, 1.0)
+	scale = Vector3.ONE * f
 
 
 func _physics_process(delta: float) -> void:
@@ -72,6 +85,10 @@ func _is_following() -> bool:
 
 
 func get_prompt() -> String:
+	if sick:
+		return animal_name + " está enfermo (veterinaria)"
+	if is_baby:
+		return "Bebé " + animal_name
 	if pending > 0 and data != null and data.produce_id != "":
 		return "Recoger " + data.produce_id
 	if hunger < 50.0:
@@ -115,6 +132,20 @@ func collect() -> String:
 func new_day() -> void:
 	hunger = maxf(0.0, hunger - 25.0)
 	hydration = maxf(0.0, hydration - 30.0)
+	if hunger <= 0.0 and not is_baby:
+		sick = true
+	if is_baby:
+		if hunger > 30.0:
+			age_days += 1
+			_apply_baby_scale()
+			if age_days >= GROW_DAYS:
+				is_baby = false
+				scale = Vector3.ONE
+				name_label.text = animal_name
+		return
+	if sick:
+		happiness = maxf(0.0, happiness - 15.0)
+		return
 	if hunger > 40.0 and hydration > 40.0 and data != null and data.produce_id != "":
 		pending = mini(3, pending + data.produce_per_day)
 		happiness = minf(100.0, happiness + 5.0)
@@ -122,9 +153,17 @@ func new_day() -> void:
 		happiness = maxf(0.0, happiness - 10.0)
 
 
+func cure() -> void:
+	sick = false
+	happiness = minf(100.0, happiness + 20.0)
+
+
 func serialize() -> Dictionary:
 	return {"name": animal_name, "hunger": hunger, "hydration": hydration,
 		"happiness": happiness, "affection": affection, "pending": pending,
+		"is_baby": is_baby, "age_days": age_days, "sick": sick,
+		"species": String(data.species) if data != null else "",
+		"personality": personality,
 		"pos": [global_position.x, global_position.y, global_position.z]}
 
 
@@ -134,6 +173,14 @@ func deserialize(d: Dictionary) -> void:
 	happiness = float(d.get("happiness", 70.0))
 	affection = float(d.get("affection", 0.0))
 	pending = int(d.get("pending", 0))
+	is_baby = bool(d.get("is_baby", false))
+	age_days = int(d.get("age_days", 0))
+	sick = bool(d.get("sick", false))
 	if d.has("pos") and typeof(d["pos"]) == TYPE_ARRAY and (d["pos"] as Array).size() == 3:
 		var a: Array = d["pos"]
 		global_position = Vector3(float(a[0]), float(a[1]), float(a[2]))
+	if is_baby:
+		_apply_baby_scale()
+	else:
+		scale = Vector3.ONE
+	name_label.text = animal_name + (" (bebé)" if is_baby else "")
