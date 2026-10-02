@@ -12,8 +12,8 @@ const TOOLS: Array[String] = ["azada", "regadera", "hacha"]
 @onready var spring_arm: SpringArm3D = $SpringArm3D
 @onready var detector: Area3D = $InteractDetector
 
-var nearby: Array[Area3D] = []
-var current: Area3D = null
+var nearby: Array[Node] = []
+var current: Node = null
 var current_prompt: String = ""
 var energy: float = 100.0
 var equipped_tool: String = ""
@@ -22,6 +22,8 @@ var equipped_tool: String = ""
 func _ready() -> void:
 	detector.area_entered.connect(_on_area_entered)
 	detector.area_exited.connect(_on_area_exited)
+	detector.body_entered.connect(_on_body_entered)
+	detector.body_exited.connect(_on_body_exited)
 
 
 func _physics_process(delta: float) -> void:
@@ -43,6 +45,14 @@ func _physics_process(delta: float) -> void:
 	_update_current()
 	if Input.is_action_just_pressed("interact") and current != null and current.has_method("interact"):
 		current.interact(self)
+	if Input.is_action_just_pressed("gift") and current != null and current is NPC:
+		var rel: Node = get_node_or_null("/root/RelationshipSystem")
+		if rel != null:
+			rel.call("gift_auto", String(current.get("npc_name")))
+	if Input.is_action_just_pressed("trade") and current != null and current is NPC:
+		var rel2: Node = get_node_or_null("/root/RelationshipSystem")
+		if rel2 != null:
+			rel2.call("trade_with", String(current.get("npc_name")))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -105,20 +115,32 @@ func eat(item_id: String) -> bool:
 
 
 func _on_area_entered(area: Area3D) -> void:
-	if area.has_method("get_prompt") and not nearby.has(area):
-		nearby.append(area)
+	_track_entered(area)
 
 
 func _on_area_exited(area: Area3D) -> void:
 	nearby.erase(area)
 
 
+func _on_body_entered(body: Node3D) -> void:
+	_track_entered(body)
+
+
+func _on_body_exited(body: Node3D) -> void:
+	nearby.erase(body)
+
+
+func _track_entered(target: Node) -> void:
+	if target != self and target.has_method("get_prompt") and not nearby.has(target):
+		nearby.append(target)
+
+
 func _update_current() -> void:
-	nearby = nearby.filter(func(a: Area3D) -> bool: return is_instance_valid(a))
-	var best: Area3D = null
+	nearby = nearby.filter(func(a: Node) -> bool: return is_instance_valid(a))
+	var best: Node = null
 	var best_d := INF
-	for area: Area3D in nearby:
-		var d: float = global_position.distance_to(area.global_position)
+	for area: Node in nearby:
+		var d: float = global_position.distance_to((area as Node3D).global_position)
 		if d < best_d:
 			best_d = d
 			best = area

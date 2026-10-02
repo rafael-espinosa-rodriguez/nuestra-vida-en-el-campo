@@ -14,6 +14,7 @@ func _ready() -> void:
 	if items.is_empty():
 		add_item("azada")
 		add_item("regadera")
+		add_item("hacha")
 		add_item("semilla_trigo", 3)
 		add_item("semilla_zanahoria", 2)
 		add_item("semilla_tomate", 2)

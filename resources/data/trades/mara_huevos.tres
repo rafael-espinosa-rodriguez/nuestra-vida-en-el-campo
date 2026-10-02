@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/trade_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+trade_id = "mara_huevos"
+trader = "Mara"
+give_id = "huevo"
+give_n = 5
+receive_id = "trigo"
+receive_n = 2

@@ -15,6 +15,7 @@ func save_game() -> bool:
 		"inventory": _get_inventory(),
 		"plots": _get_plots(),
 		"animals": _get_animals(),
+		"relations": _get_relations(),
 		"money": 0,
 		"memories": [],
 	}
@@ -58,6 +59,10 @@ func load_game() -> bool:
 		var herd: Node = get_node_or_null("/root/AnimalSystem")
 		if herd != null and herd.has_method("deserialize"):
 			herd.deserialize(data["animals"])
+	if data.has("relations") and typeof(data["relations"]) == TYPE_DICTIONARY:
+		var rel: Node = get_node_or_null("/root/RelationshipSystem")
+		if rel != null and rel.has_method("deserialize"):
+			rel.call("deserialize", data["relations"])
 	return true
 
 
@@ -103,6 +108,13 @@ func _get_animals() -> Array:
 	if herd != null and herd.has_method("serialize"):
 		return herd.serialize()
 	return []
+
+
+func _get_relations() -> Dictionary:
+	var rel: Node = get_node_or_null("/root/RelationshipSystem")
+	if rel != null and rel.has_method("serialize"):
+		return rel.call("serialize")
+	return {}
 
 
 func _player_pos() -> Array:
