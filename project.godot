@@ -1,5 +1,10 @@
 ; Engine configuration file.
-; Nuestra Vida en el Campo — Godot 4 clásica (GDScript). MVP semana completa primavera.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
@@ -25,15 +30,15 @@ MarketSystem="*res://scripts/systems/market_system.gd"
 MemorySystem="*res://scripts/systems/memory_system.gd"
 MCPRuntimeServer="*res://addons/godot_mcp_toolkit/runtime/mcp_runtime_server.gd"
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg")
-
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_mcp_toolkit/plugin.cfg")
 
 [input]
 
@@ -87,13 +92,9 @@ photo={
 ]
 }
 
-[input_devices]
-
-pointing/emulate_touch_from_mouse=false
-
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-environment/defaults/default_clear_color=Color(0.53, 0.75, 0.95, 1)
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.53, 0.75, 0.95, 1)

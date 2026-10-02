@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3]
+
+[sub_resource type="StandardMaterial3D" id="mat_fence"]
+albedo_color = Color(0.55, 0.4, 0.24, 1)
+
+[sub_resource type="BoxMesh" id="mesh_post"]
+material = SubResource("mat_fence")
+size = Vector3(0.18, 1.1, 0.18)
+
+[sub_resource type="BoxMesh" id="mesh_rail"]
+material = SubResource("mat_fence")
+size = Vector3(0.1, 0.12, 2.0)
+
+[sub_resource type="BoxShape3D" id="shape_post"]
+size = Vector3(0.18, 1.1, 2.0)
+
+[node name="Fence" type="StaticBody3D"]
+
+[node name="Post" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.55, 0)
+mesh = SubResource("mesh_post")
+
+[node name="PostCol" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.55, 0)
+shape = SubResource("shape_post")
+
+[node name="Rail1" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.85, 0)
+mesh = SubResource("mesh_rail")
+
+[node name="Rail2" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.45, 0)
+mesh = SubResource("mesh_rail")

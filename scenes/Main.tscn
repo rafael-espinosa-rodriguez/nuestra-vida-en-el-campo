@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://nvdc_main_mvp"]
+[gd_scene load_steps=50 format=3 uid="uid://nvdc_main_mvp"]
 
 [ext_resource type="PackedScene" path="res://scenes/Player.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="2"]
@@ -53,6 +53,29 @@ albedo_color = Color(0.75, 0.3, 0.3, 1)
 [sub_resource type="BoxMesh" id="mesh_rug"]
 material = SubResource("mat_rug")
 size = Vector3(2.4, 0.06, 1.6)
+
+[sub_resource type="StandardMaterial3D" id="mat_curtain"]
+albedo_color = Color(0.7, 0.3, 0.35, 1)
+
+[sub_resource type="BoxMesh" id="mesh_curtain"]
+material = SubResource("mat_curtain")
+size = Vector3(0.08, 1.3, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="mat_lamp"]
+albedo_color = Color(1.0, 0.9, 0.6, 1)
+emission_enabled = true
+emission = Color(1.0, 0.85, 0.5, 1)
+
+[sub_resource type="BoxMesh" id="mesh_lamp"]
+material = SubResource("mat_lamp")
+size = Vector3(0.35, 0.9, 0.35)
+
+[sub_resource type="StandardMaterial3D" id="mat_shelf"]
+albedo_color = Color(0.45, 0.3, 0.18, 1)
+
+[sub_resource type="BoxMesh" id="mesh_shelf"]
+material = SubResource("mat_shelf")
+size = Vector3(1.4, 1.7, 0.4)
 
 [sub_resource type="StandardMaterial3D" id="mat_water"]
 albedo_color = Color(0.3, 0.55, 0.85, 1)
@@ -244,6 +267,29 @@ mesh = SubResource("mesh_cuadro")
 visible = false
 position = Vector3(0, 0.03, 0)
 mesh = SubResource("mesh_rug")
+
+[node name="DecorCortina" type="MeshInstance3D" parent="House" groups=["DecorCortina"]]
+visible = false
+position = Vector3(-2.8, 1.7, 0.5)
+mesh = SubResource("mesh_curtain")
+
+[node name="DecorLampara" type="MeshInstance3D" parent="House" groups=["DecorLampara"]]
+visible = false
+position = Vector3(2.4, 0.45, -1.5)
+mesh = SubResource("mesh_lamp")
+
+[node name="DecorEstanteria" type="MeshInstance3D" parent="House" groups=["DecorEstanteria"]]
+visible = false
+position = Vector3(-1.5, 0.85, -2.1)
+mesh = SubResource("mesh_shelf")
+
+[node name="Armario" parent="." instance=ExtResource("7")]
+position = Vector3(-1, 0.5, -7.5)
+prop_id = "armario"
+
+[node name="Taller" parent="." instance=ExtResource("7")]
+position = Vector3(5, 0.5, -4)
+prop_id = "taller"
 
 [node name="Decor" parent="." instance=ExtResource("7")]
 position = Vector3(-4, 0.5, -5)

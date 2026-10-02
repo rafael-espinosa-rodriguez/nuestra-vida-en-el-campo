@@ -7,10 +7,14 @@ extends CharacterBody3D
 @export var sprint_multiplier: float = 1.6
 @export var max_energy: float = 100.0
 
-const TOOLS: Array[String] = ["azada", "regadera", "hacha", "cana", "pico"]
+const TOOLS: Array[String] = ["azada", "regadera", "hacha", "cana", "pico", "cerca"]
+const SHIRTS := [Color(0.85, 0.6, 0.4), Color(0.4, 0.6, 0.85), Color(0.5, 0.75, 0.45), Color(0.75, 0.45, 0.7)]
 
 @onready var spring_arm: SpringArm3D = $SpringArm3D
 @onready var detector: Area3D = $InteractDetector
+@onready var body_mesh: MeshInstance3D = $MeshInstance3D
+
+var shirt_idx: int = 0
 
 var nearby: Array[Node] = []
 var current: Node = null
@@ -25,6 +29,20 @@ func _ready() -> void:
 	detector.area_exited.connect(_on_area_exited)
 	detector.body_entered.connect(_on_body_entered)
 	detector.body_exited.connect(_on_body_exited)
+	_apply_shirt()
+
+
+func cycle_shirt() -> void:
+	shirt_idx = (shirt_idx + 1) % SHIRTS.size()
+	_apply_shirt()
+
+
+func _apply_shirt() -> void:
+	if not is_node_ready() or body_mesh == null:
+		return
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = SHIRTS[shirt_idx]
+	body_mesh.set_surface_override_material(0, mat)
 
 
 func _physics_process(delta: float) -> void:
@@ -51,8 +69,11 @@ func _physics_process(delta: float) -> void:
 	if dir.length() > 0.1:
 		rotation.y = lerp_angle(rotation.y, atan2(-dir.x, -dir.z), 10.0 * delta)
 	_update_current()
-	if Input.is_action_just_pressed("interact") and current != null and current.has_method("interact"):
-		current.interact(self)
+	if Input.is_action_just_pressed("interact"):
+		if equipped_tool == "cerca" and current == null:
+			place_fence()
+		elif current != null and current.has_method("interact"):
+			current.interact(self)
 	if Input.is_action_just_pressed("gift") and current != null and current is NPC:
 		var rel: Node = get_node_or_null("/root/RelationshipSystem")
 		if rel != null:
@@ -100,6 +121,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				_equip_from_inventory(inv, 3)
 			KEY_5:
 				_equip_from_inventory(inv, 4)
+			KEY_6:
+				_equip_from_inventory(inv, 5)
 
 
 func _equip_from_inventory(inv: Node, index: int) -> void:
@@ -148,6 +171,25 @@ func eat(item_id: String) -> bool:
 	if not bool(inv.call("remove_item", item_id)):
 		return false
 	restore_energy(float(FOOD_ENERGY[item_id]))
+	return true
+
+
+func place_fence() -> bool:
+	var inv: Node = get_node_or_null("/root/InventorySystem")
+	if inv == null or not bool(inv.call("remove_item", "cerca")):
+		return false
+	var fence: Node = (load("res://scenes/Fence.tscn") as PackedScene).instantiate()
+	var fwd: Vector3 = -global_transform.basis.z
+	fwd.y = 0.0
+	var spot: Vector3 = global_position + (fwd.normalized() * 2.0 if fwd.length() > 0.01 else Vector3(0, 0, 2.0))
+	spot.y = 0.0
+	fence.set("position", spot)
+	(fence as Node3D).rotation.y = rotation.y
+	var home: Node = get_tree().current_scene
+	if home == null:
+		home = get_parent()
+	fence.add_to_group("fences")
+	home.add_child(fence)
 	return true
 
 

@@ -14,12 +14,16 @@ const COLORS := {"bed": Color(0.6, 0.4, 0.7), "fireplace": Color(0.5, 0.25, 0.15
 	"fish": Color(0.35, 0.6, 0.85), "forage": Color(0.4, 0.6, 0.3),
 	"telar": Color(0.7, 0.5, 0.65), "decor": Color(0.85, 0.7, 0.5),
 	"corral": Color(0.55, 0.45, 0.3), "quesera": Color(0.9, 0.85, 0.55),
-	"conservera": Color(0.5, 0.65, 0.45)}
+	"conservera": Color(0.5, 0.65, 0.45), "armario": Color(0.6, 0.42, 0.28),
+	"taller": Color(0.5, 0.5, 0.55)}
 
 const DECOR_CATALOG := [
 	{"id": "decor_maceta", "name": "Maceta", "price": 10, "node": "DecorMaceta"},
 	{"id": "decor_cuadro", "name": "Cuadro", "price": 15, "node": "DecorCuadro"},
 	{"id": "decor_alfombra", "name": "Alfombra", "price": 20, "node": "DecorAlfombra"},
+	{"id": "decor_cortina", "name": "Cortina", "price": 12, "node": "DecorCortina"},
+	{"id": "decor_lampara", "name": "Lámpara", "price": 18, "node": "DecorLampara"},
+	{"id": "decor_estanteria", "name": "Estantería", "price": 25, "node": "DecorEstanteria"},
 ]
 
 var lit: bool = false
@@ -87,6 +91,10 @@ func get_prompt() -> String:
 			return "Picar " + forage_id + " (pico)" if forage_id in ["piedra", "mineral"] else "Recoger " + forage_id
 		"telar":
 			return "Tejer tela (2 lana)"
+		"armario":
+			return "Cambiar camisa"
+		"taller":
+			return "Hacer cerca (2 madera)"
 		"quesera":
 			return "Hacer queso/yogur (leche)"
 		"conservera":
@@ -149,6 +157,13 @@ func interact(player: Node) -> void:
 			if pl != null and inv != null and int(inv.call("get_count", "lana")) >= 2 and pl.spend_energy(4.0):
 				inv.call("remove_item", "lana", 2)
 				inv.call("add_item", "tela")
+		"armario":
+			if pl != null and pl.has_method("cycle_shirt"):
+				pl.cycle_shirt()
+		"taller":
+			if inv != null and int(inv.call("get_count", "madera")) >= 2:
+				inv.call("remove_item", "madera", 2)
+				inv.call("add_item", "cerca")
 		"quesera":
 			if pl != null:
 				_cook(pl, inv, ["queso", "yogur"])
