@@ -15,18 +15,24 @@ func _process(delta: float) -> void:
 	hour += delta * 24.0 / (day_length_minutes * 60.0)
 	if hour >= 24.0:
 		hour -= 24.0
-		current_day += 1
-		day_changed.emit(current_day)
+		_change_day()
 	time_changed.emit(hour)
 	_apply_to_scene()
+
+
+func _change_day() -> void:
+	current_day += 1
+	var weather: Node = get_node_or_null("/root/WeatherSystem")
+	if weather != null and weather.has_method("roll_daily_weather"):
+		weather.roll_daily_weather(current_day)
+	day_changed.emit(current_day)
 
 
 func sleep_until_morning() -> void:
 	# Dormir pasada la medianoche (00:00-05:00) deja cansancio (GDD §8).
 	last_sleep_late = hour < 5.0
-	current_day += 1
 	hour = 6.0
-	day_changed.emit(current_day)
+	_change_day()
 	time_changed.emit(hour)
 	_apply_to_scene()
 	var save_sys: Node = get_node_or_null("/root/SaveSystem")

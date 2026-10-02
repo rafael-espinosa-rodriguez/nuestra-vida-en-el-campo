@@ -13,6 +13,7 @@ func save_game() -> bool:
 		"hour": _get_time_hour(),
 		"player_pos": _player_pos(),
 		"inventory": _get_inventory(),
+		"plots": _get_plots(),
 		"money": 0,
 		"memories": [],
 	}
@@ -48,6 +49,10 @@ func load_game() -> bool:
 			for p: Node in get_tree().get_nodes_in_group("player"):
 				if p is Node3D:
 					(p as Node3D).global_position = Vector3(float(a[0]), float(a[1]), float(a[2]))
+	if data.has("plots") and typeof(data["plots"]) == TYPE_ARRAY:
+		var farm: Node = get_node_or_null("/root/FarmingSystem")
+		if farm != null and farm.has_method("deserialize"):
+			farm.deserialize(data["plots"])
 	return true
 
 
@@ -79,6 +84,13 @@ func _get_inventory() -> Dictionary:
 	if inv != null and ("items" in inv):
 		return (inv.get("items") as Dictionary).duplicate()
 	return {}
+
+
+func _get_plots() -> Array:
+	var farm: Node = get_node_or_null("/root/FarmingSystem")
+	if farm != null and farm.has_method("serialize"):
+		return farm.serialize()
+	return []
 
 
 func _player_pos() -> Array:
