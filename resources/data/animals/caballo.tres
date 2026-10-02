@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnimalData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/animal_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+species = "caballo"
+display_name = "Caballo"
+produce_id = ""
+produce_per_day = 0
+food_id = "trigo"
+follows_player = false
+rideable = true
+tint = Color(0.5, 0.35, 0.25, 1)
+body_size = Vector3(0.9, 1.1, 1.5)
+walk_speed = 2.0

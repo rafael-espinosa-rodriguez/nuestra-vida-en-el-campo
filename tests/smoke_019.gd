@@ -28,7 +28,7 @@ func _run() -> void:
 	var names := []
 	for a: Node in get_nodes_in_group("animals"):
 		names.append(String(a.get("animal_name")))
-	assert(names.size() == 9, "nace 1 cria (8+1)")
+	assert(names.size() == 11, "nace 1 cria (10+1)")
 	var baby: Node = null
 	for a: Node in get_nodes_in_group("animals"):
 		if bool(a.get("is_baby")):
@@ -45,5 +45,5 @@ func _run() -> void:
 	baby.set("hydration", 90.0)
 	time_sys.emit_signal("day_changed", 5)
 	assert(int(baby.get("pending")) >= 1, "adulta produce")
-	assert(int(herd.call("serialize").size()) == 9, "serialize cubre 9")
+	assert(int(herd.call("serialize").size()) == 11, "serialize cubre 11")
 	print("SMOKE019 OK")

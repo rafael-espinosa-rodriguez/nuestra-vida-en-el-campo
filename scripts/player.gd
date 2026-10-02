@@ -17,6 +17,7 @@ var current: Node = null
 var current_prompt: String = ""
 var energy: float = 100.0
 var equipped_tool: String = ""
+var riding: Animal = null
 
 
 func _ready() -> void:
@@ -27,6 +28,13 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if riding != null:
+		if is_instance_valid(riding) and bool(riding.get("ridden")):
+			global_position = (riding as Node3D).global_position + Vector3(0, 1.7, 0)
+			velocity = Vector3.ZERO
+			_update_current()
+			return
+		riding = null
 	var input_vec: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var dir: Vector3 = spring_arm.global_transform.basis * Vector3(input_vec.x, 0.0, input_vec.y)
 	dir.y = 0.0

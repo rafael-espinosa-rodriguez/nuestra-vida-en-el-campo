@@ -16,6 +16,7 @@ var pending: int = 0
 var is_baby: bool = false
 var age_days: int = 0
 var sick: bool = false
+var ridden: bool = false
 
 const GROW_DAYS := 3
 const MAX_HERD := 12
@@ -75,6 +76,9 @@ func _build_model() -> void:
 		"vaca":
 			leg_len = 0.7
 			head_size = Vector3(0.45, 0.45, 0.5)
+		"caballo":
+			leg_len = 0.7
+			head_size = Vector3(0.4, 0.45, 0.55)
 	var body_bottom: float = leg_len - 0.6
 	var body_center: float = body_bottom + size.y * 0.5
 	body.position.y = body_center
@@ -110,6 +114,10 @@ func _build_model() -> void:
 			_part(Vector3(0.12, 0.2, 0.1), Vector3(-0.12, head_y + head_size.y * 0.5 + 0.05, head_z), dark)
 			_part(Vector3(0.12, 0.2, 0.1), Vector3(0.12, head_y + head_size.y * 0.5 + 0.05, head_z), dark)
 			_part(Vector3(0.1, 0.1, 0.1), Vector3(0, head_y, head_z - head_size.z * 0.5 - 0.02), Color(0.15, 0.12, 0.12))
+		"caballo":
+			_part(Vector3(0.12, 0.28, 0.1), Vector3(-0.14, head_y + head_size.y * 0.5 + 0.06, head_z), dark)
+			_part(Vector3(0.12, 0.28, 0.1), Vector3(0.14, head_y + head_size.y * 0.5 + 0.06, head_z), dark)
+			_part(Vector3(0.28, 0.16, 0.14), Vector3(0, head_y - 0.12, head_z - head_size.z * 0.5), dark.darkened(0.1))
 		"oveja", "cabra":
 			_part(Vector3(0.12, 0.2, 0.1), Vector3(-0.15, head_y + head_size.y * 0.5, head_z), dark)
 			_part(Vector3(0.12, 0.2, 0.1), Vector3(0.15, head_y + head_size.y * 0.5, head_z), dark)
@@ -126,6 +134,9 @@ func _apply_baby_scale() -> void:
 func _physics_process(delta: float) -> void:
 	hunger = maxf(0.0, hunger - delta * 0.05)
 	hydration = maxf(0.0, hydration - delta * 0.06)
+	if ridden:
+		_ride_move(delta)
+		return
 	var night: bool = false
 	var time_sys: Node = get_node_or_null("/root/TimeSystem")
 	if time_sys != null and time_sys.has_method("is_night"):
@@ -162,7 +173,46 @@ func _is_following() -> bool:
 	return global_position.distance_to((players[0] as Node3D).global_position) > 2.5
 
 
+func _ride_move(delta: float) -> void:
+	# El jugador dirige con WASD; Shift galopa si hay energia (spec 022).
+	var input_vec: Vector2 = Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var dir := Vector3(input_vec.x, 0.0, input_vec.y)
+	if dir.length() > 1.0:
+		dir = dir.normalized()
+	var spd := 6.5
+	if Input.is_action_pressed("sprint"):
+		for p: Node in get_tree().get_nodes_in_group("player"):
+			if p.has_method("spend_energy") and bool(p.call("spend_energy", 2.0 * delta)):
+				spd *= 1.3
+				break
+	velocity.x = dir.x * spd
+	velocity.z = dir.z * spd
+	velocity.y = 0.0 if is_on_floor() else velocity.y - 20.0 * delta
+	move_and_slide()
+	if dir.length() > 0.1:
+		rotation.y = lerp_angle(rotation.y, atan2(-dir.x, -dir.z), 8.0 * delta)
+
+
+func mount(player: Node) -> void:
+	ridden = true
+	if player != null and player.has_method("set"):
+		player.set("riding", self)
+		player.set("collision_layer", 0)
+		player.set("collision_mask", 0)
+
+
+func dismount(player: Node) -> void:
+	ridden = false
+	if player != null and player.has_method("set"):
+		player.set("riding", null)
+		player.set("collision_layer", 1)
+		player.set("collision_mask", 1)
+		(player as Node3D).global_position = global_position + Vector3(1.5, 0.5, 0.0)
+
+
 func get_prompt() -> String:
+	if data != null and data.rideable:
+		return "Desmontar" if ridden else "Montar"
 	if sick:
 		return animal_name + " está enfermo (veterinaria)"
 	if is_baby:
@@ -175,6 +225,12 @@ func get_prompt() -> String:
 
 
 func interact(player: Node) -> void:
+	if data != null and data.rideable:
+		if ridden:
+			dismount(player)
+		else:
+			mount(player)
+		return
 	if hunger < 70.0 and data != null and data.food_id != "":
 		var inv: Node = get_node_or_null("/root/InventorySystem")
 		if inv != null and bool(inv.call("remove_item", data.food_id)):
