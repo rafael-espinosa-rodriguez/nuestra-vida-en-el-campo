@@ -19,7 +19,7 @@
 - Sin compilación: GDScript se interpreta. Verificación headless: `Godot_v4.7.2-stable_win64_console.exe --headless --path "..." --import`.
 - Tests: de momento verificación manual en editor + checklist de cada spec. Cuando haya tests GUT, se documentan en la spec.
 - Plugin MCP **Godot MCP Toolkit** en `addons/` + servidor `godot` registrado en opencode (`npx -y @npgamedev/godot-mcp-server`). Requiere editor abierto con el plugin activo. Ver `docs/MCP.md`.
-- Requisitos pendientes en esta máquina: `gh` CLI y Git LFS. Ver `docs/Setup.md`.
+- `gh` CLI v2.102.0 instalado (en PATH). Sin auth aún: el primer `gh auth login` lo hace el usuario en su terminal. Git LFS pendiente. Ver `docs/Setup.md`.
 
 ## 3. Convenciones Godot + GDScript
 

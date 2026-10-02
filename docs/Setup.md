@@ -7,9 +7,5 @@
    "Godot MCP Toolkit" → Project → Tools → MCP Toolkit → Write .mcp.json. Ver `docs/MCP.md`.
    El servidor MCP (`npx -y @npgamedev/godot-mcp-server`) se conecta solo cuando el editor está abierto.
 3. **Git LFS:** pendiente `git lfs install` (para `assets/`).
-4. **Repo GitHub:** https://github.com/rafael-espinosa-rodriguez/nuestra-vida-en-el-campo (creado, pendiente push con auth):
-   ```
-   git remote add origin https://github.com/rafael-espinosa-rodriguez/nuestra-vida-en-el-campo.git
-   git branch -M main
-   git push -u origin main
-   ```
+4. **Repo GitHub:** ✅ creado y subido: https://github.com/rafael-espinosa-rodriguez/nuestra-vida-en-el-campo (rama `main`).
+   `gh` CLI v2.102.0 instalado en `%LOCALAPPDATA%\Programs\gh` (en PATH). Pendiente: `gh auth login` interactivo del usuario para futuros push/PR.
