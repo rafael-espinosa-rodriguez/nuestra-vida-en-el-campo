@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=30 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/Prop.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/NPC.tscn" id="2"]
@@ -6,6 +6,14 @@
 [ext_resource type="Resource" path="res://resources/data/npcs/bram.tres" id="4"]
 [ext_resource type="Resource" path="res://resources/data/npcs/nara.tres" id="5"]
 [ext_resource type="Resource" path="res://resources/data/npcs/sari.tres" id="6"]
+[ext_resource type="Resource" path="res://resources/data/npcs/aina.tres" id="7"]
+
+[sub_resource type="StandardMaterial3D" id="mat_confetti"]
+albedo_color = Color(1.0, 0.8, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="mesh_confetti"]
+material = SubResource("mat_confetti")
+size = Vector3(0.12, 0.02, 0.12)
 
 [sub_resource type="StandardMaterial3D" id="mat_wood"]
 albedo_color = Color(0.5, 0.35, 0.2, 1)
@@ -307,3 +315,27 @@ npc_name = "Sari"
 home_pos = Vector3(-8, 0.1, -4)
 work_pos = Vector3(2, 0.1, 6)
 plaza_pos = Vector3(0, 0.1, 4)
+
+[node name="Aina" parent="." instance=ExtResource("2")]
+position = Vector3(8, 0.1, -4)
+data = ExtResource("7")
+npc_name = "Aina"
+home_pos = Vector3(8, 0.1, -4)
+work_pos = Vector3(0, 0.1, 4)
+plaza_pos = Vector3(-4, 0.1, 4)
+
+[node name="Confetti" type="CPUParticles3D" parent="." groups=["confetti"]]
+visible = false
+position = Vector3(0, 4, 4)
+amount = 200
+lifetime = 4.0
+emitting = true
+emission_shape = 3
+emission_box_extents = Vector3(5, 1, 5)
+direction = Vector3(0, -1, 0)
+spread = 30.0
+gravity = Vector3(0, -1.5, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 3.0
+color = Color(1.0, 0.8, 0.3, 1)
+draw_pass_1 = SubResource("mesh_confetti")

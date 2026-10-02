@@ -71,6 +71,11 @@ func moment_key() -> String:
 
 
 func update_schedule() -> void:
+	# En festival todos se reunen en la plaza (GDD §50).
+	var time_sys: Node = get_node_or_null("/root/TimeSystem")
+	if time_sys != null and time_sys.has_method("is_festival_day") and bool(time_sys.call("is_festival_day")):
+		_target = plaza_pos
+		return
 	match moment_key():
 		"manana", "noche", "lluvia":
 			_target = home_pos
@@ -114,6 +119,13 @@ func _say(text: String) -> void:
 
 
 func talk() -> String:
+	var tsys: Node = get_node_or_null("/root/TimeSystem")
+	if tsys != null and tsys.has_method("is_festival_day") and bool(tsys.call("is_festival_day")) and data != null and data.dialogues.has("fiesta"):
+		var party: Array = Array(data.dialogues["fiesta"])
+		if not party.is_empty():
+			var fday: int = int(tsys.get("current_day"))
+			_say(String(party[fday % party.size()]))
+			return last_line
 	var key := moment_key()
 	var lines: Array = []
 	if data != null and data.dialogues.has(key):

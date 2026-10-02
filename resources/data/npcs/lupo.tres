@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="NPCData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/npc_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Lupo"
+age = 67
+profession = "pescador"
+personality = "tranquilo"
+favorite_gift = "pez"
+tint = Color(0.45, 0.5, 0.6, 1)
+dialogues = {"manana": PackedStringArray("El rio despierta antes que nosotros.", "¿Vienes a pescar? Te presto paciencia."), "dia": PackedStringArray("Aqui pican al mediodia.", "El pez grande espera al pescador quieto."), "tarde": PackedStringArray("Guardo la caña al atardecer.", "Mañana mas."), "noche": PackedStringArray("El rio de noche... mejor en casa.", "Descansa."), "lluvia": PackedStringArray("Con lluvia pican mejor. Quedate un rato.", "El rio crece, cuidado."), "fiesta": PackedStringArray("¡Festival! Hoy el rio tambien celebra.", "¿Un brindis con agua del rio?")}

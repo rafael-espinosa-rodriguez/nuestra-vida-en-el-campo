@@ -117,3 +117,6 @@ func _apply_to_scene() -> void:
 	for s: Node in get_tree().get_nodes_in_group("snow"):
 		if s is GPUParticles3D or s is CPUParticles3D:
 			(s as Node3D).visible = season_index() == 3
+	for c: Node in get_tree().get_nodes_in_group("confetti"):
+		if c is GPUParticles3D or c is CPUParticles3D:
+			(c as Node3D).visible = is_festival_day()

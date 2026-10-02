@@ -10,5 +10,5 @@ profession = "herrero"
 personality = "serio"
 favorite_gift = "madera"
 tint = Color(0.45, 0.45, 0.5, 1)
-dialogues = {"manana": PackedStringArray("El fuego ya esta caliente.", "Madera seca, buen acero."), "dia": PackedStringArray("Traeme madera y vemos que hacemos.", "Las herramientas buenas duran años."), "tarde": PackedStringArray("Ya casi termino por hoy.", "El metal canta al atardecer."), "noche": PackedStringArray("La fragua descansa. Tu tambien deberias.", "Hasta mañana."), "lluvia": PackedStringArray("La lluvia no apaga mi fragua.", "Dia perfecto para reparar.")}
+dialogues = {"manana": PackedStringArray("El fuego ya esta caliente.", "Madera seca, buen acero."), "dia": PackedStringArray("Traeme madera y vemos que hacemos.", "Las herramientas buenas duran años."), "tarde": PackedStringArray("Ya casi termino por hoy.", "El metal canta al atardecer."), "noche": PackedStringArray("La fragua descansa. Tu tambien deberias.", "Hasta mañana."), "lluvia": PackedStringArray("La lluvia no apaga mi fragua.", "Dia perfecto para reparar."), "fiesta": PackedStringArray("¡Festival! Hoy no trabajo el metal, hoy brindo.", "Salud, vecino.")}
 

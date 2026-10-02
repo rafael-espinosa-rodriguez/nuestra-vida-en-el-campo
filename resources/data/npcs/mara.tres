@@ -10,5 +10,5 @@ profession = "tendera"
 personality = "practica"
 favorite_gift = "huevo"
 tint = Color(0.7, 0.4, 0.5, 1)
-dialogues = {"manana": PackedStringArray("Buenos dias. ¿Semillas para hoy?", "Temprano como siempre, me gusta."), "dia": PackedStringArray("Tengo semillas frescas de primavera.", "El pan de tu horno huele hasta aqui."), "tarde": PackedStringArray("Cierro al atardecer, date prisa.", "Que colores trae el cielo hoy."), "noche": PackedStringArray("Ya cerre, vuelve mañana.", "Descansa, mañana sera otro dia."), "lluvia": PackedStringArray("Con lluvia no hay mercado, pero la tienda abre.", "Buen dia para hornear pan.")}
+dialogues = {"manana": PackedStringArray("Buenos dias. ¿Semillas para hoy?", "Temprano como siempre, me gusta."), "dia": PackedStringArray("Tengo semillas frescas de primavera.", "El pan de tu horno huele hasta aqui."), "tarde": PackedStringArray("Cierro al atardecer, date prisa.", "Que colores trae el cielo hoy."), "noche": PackedStringArray("Ya cerre, vuelve mañana.", "Descansa, mañana sera otro dia."), "lluvia": PackedStringArray("Con lluvia no hay mercado, pero la tienda abre.", "Buen dia para hornear pan."), "fiesta": PackedStringArray("¡Festival! Hoy todo a mitad para ti... casi.", "Que dia tan bonito para celebrar.")}
 
