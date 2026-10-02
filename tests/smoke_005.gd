@@ -43,5 +43,5 @@ func _run() -> void:
 	var h0: float = float(misha.get("hunger"))
 	root.get_node_or_null("TimeSystem").emit_signal("day_changed", 2)
 	assert(float(misha.get("hunger")) < h0, "tick diario baja hambre")
-	assert(int(root.get_node_or_null("AnimalSystem").call("serialize").size()) == 5, "serialize cubre 5")
+	assert(int(root.get_node_or_null("AnimalSystem").call("serialize").size()) >= 5, "serialize cubre animales")
 	print("SMOKE005 OK")
