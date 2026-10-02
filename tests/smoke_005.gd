@@ -28,9 +28,10 @@ func _run() -> void:
 	misha.set("hunger", 20.0)
 	inv.call("add_item", "trigo", 2)
 	var player: Node = get_nodes_in_group("player")[0]
+	var trigo_antes: int = int(inv.call("get_count", "trigo"))
 	misha.call("interact", player)
 	assert(float(misha.get("hunger")) > 20.0, "E con hambre alimenta (gasta trigo)")
-	assert(int(inv.call("get_count", "trigo")) == 1, "alimentar consume 1 trigo")
+	assert(int(inv.call("get_count", "trigo")) == trigo_antes - 1, "alimentar consume 1 trigo")
 	misha.set("hunger", 90.0)
 	misha.set("pending", 2)
 	misha.call("interact", player)
